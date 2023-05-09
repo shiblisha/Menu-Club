@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_club/Bloc/CategoryBloc/category_bloc.dart';
 import 'package:menu_club/Bloc/LoginBloc/login_bloc.dart';
-import 'package:menu_club/Ui/login.dart';
+
+import 'Ui/splashScreen.dart';
 
 String basePath = "https://menuclub.uk/api/";
-
+dynamic Keyvalue='';
 void main() {
   runApp(const MyApp());
 }
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
               // is not restarted.
               primarySwatch: Colors.blue,
             ),
-            home: LoginPage()
+            home: Splash_Screen()
         ),
 
     );

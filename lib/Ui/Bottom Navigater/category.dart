@@ -12,7 +12,8 @@ class CategoryPage extends StatefulWidget {
 }
 
 List<bool> _toggleValue = [];
-late CategoryModel category;
+List<dynamic>categories=[];
+
 class _CategoryPageState extends State<CategoryPage> {
   @override
   void initState() {
@@ -21,6 +22,7 @@ class _CategoryPageState extends State<CategoryPage> {
   }
   @override
   Widget build(BuildContext context) {
+
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -107,9 +109,10 @@ class _CategoryPageState extends State<CategoryPage> {
                         );
                       }
                       if (state is CategoryblocLoaded){
-                        category= BlocProvider.of<CategoryBloc>(context).CategoryModel1;
+                        categories= BlocProvider.of<CategoryBloc>(context).categoryData['data'];
+                        print(categories);
                       return ListView.builder(
-                          itemCount: category.payload!.data!.length,
+                          itemCount: categories.length,
                           itemBuilder: (ctx, index) {
                             for (int i = 1; i <= 10; i++) {
                               _toggleValue.add(false);

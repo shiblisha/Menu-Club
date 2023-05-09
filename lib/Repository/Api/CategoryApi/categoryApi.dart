@@ -1,23 +1,19 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-
-
-
-import '../../ModelClass/CategoryModel.dart';
 import '../api_client.dart';
 
 class CategoryApi {
   ApiClient apiClient = ApiClient();
 
-  Future<CategoryModel> getCategory({required int shopId}) async {
-    var body={
-      'shopId':shopId
+  Future<Map<String, dynamic>> getCategory({required int shopId}) async {
+    var body = {
+      'shopId': shopId,
     };
-    String trendingpath = 'store/category/view';
+    String path = 'store/category/view';
 
-    Response response = await apiClient.invokeAPI(trendingpath, 'POST', jsonEncode(body));
+    Response response = await apiClient.invokeAPI(path, 'POST', jsonEncode(body));
 
-    return CategoryModel.fromJson(jsonDecode(response.body));
+    return jsonDecode(response.body)['payload'];
   }
 }

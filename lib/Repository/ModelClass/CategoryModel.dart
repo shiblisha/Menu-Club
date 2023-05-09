@@ -10,7 +10,7 @@ class CategoryModel {
     payload = json['payload'] != null ? Payload.fromJson(json['payload']) : null;
   }
   bool? success;
-  dynamic status;
+  String? status;
   Payload? payload;
 
   Map<String, dynamic> toJson() {
@@ -68,13 +68,13 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
-  dynamic id;
-  dynamic name;
-  dynamic imageUrl;
-  dynamic isActive;
-  dynamic storeId;
-  dynamic createdAt;
-  dynamic updatedAt;
+  int? id;
+  String? name;
+  String? imageUrl;
+  String? isActive;
+  String? storeId;
+  String? createdAt;
+  String? updatedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

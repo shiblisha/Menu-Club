@@ -13,14 +13,14 @@ part 'category_event.dart';
 part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  late CategoryModel CategoryModel1;
+  late Map<String, dynamic> categoryData;
   CategoryApi categoryApi=CategoryApi();
   CategoryBloc() : super(CategoryInitial()) {
     on<FetchCategory>((event, emit)async {
       emit(CategoryblocLoading());
       try{
 
-        CategoryModel1 = await categoryApi.getCategory(shopId: event.shopId);
+        categoryData = await categoryApi.getCategory(shopId: event.shopId);
         emit(CategoryblocLoaded());
       } catch(e){
         print(e);

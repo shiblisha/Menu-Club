@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Bloc/LoginBloc/login_bloc.dart';
+import '../main.dart';
 import 'botton_navigation.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,6 +36,9 @@ class _LoginPageState extends State<LoginPage> {
           builder: (BuildContext a) => const Center(child: CircularProgressIndicator()));
     }
     if(state is LoginBlocLoaded){
+      setState(() {
+        Keyvalue=true;
+      });
       String token= BlocProvider.of<LoginBloc>(context).loginModel.payload!.accessToken.toString();
       userInfo(token);
       Navigator.push(context,

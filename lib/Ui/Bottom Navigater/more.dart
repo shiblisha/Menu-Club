@@ -9,6 +9,6 @@ class MorePage extends StatefulWidget {
 class _MorePageState extends State<MorePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(appBar: AppBar(title: Text('More'),),);
   }
 }

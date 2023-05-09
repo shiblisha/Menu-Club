@@ -3,8 +3,8 @@ import 'package:bloc/bloc.dart';
 
 import 'package:meta/meta.dart';
 
-import '../Repository/Api/LoginApi/loginApi.dart';
-import '../Repository/ModelClass/LoginModel.dart';
+import '../../Repository/Api/LoginApi/loginApi.dart';
+import '../../Repository/ModelClass/LoginModel.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

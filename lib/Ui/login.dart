@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Bloc/login_bloc.dart';
-import 'Bottom Navigater/home.dart';
+import '../Bloc/LoginBloc/login_bloc.dart';
+import 'botton_navigation.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       String token= BlocProvider.of<LoginBloc>(context).loginModel.payload!.accessToken.toString();
       userInfo(token);
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomePage()));
+          MaterialPageRoute(builder: (context) =>const BottomNavigation()));
     }
     if (state is LoginBlocError){Navigator.of(context).pop();
     }
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: mheight * 0.22,
               ),
-              Center(
+              const Center(
                   child: CircleAvatar(
                 radius: 90,
                 backgroundImage: AssetImage("assets/logo_red.png"),
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: mheight * 0.03,
               ),
-              Center(
+              const Center(
                   child: Text(
                 "Welcome Back",
                 style: TextStyle(fontWeight: FontWeight.w700, fontSize: 25),
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: mwidth * 0.08),
-                child: Text(
+                child: const Text(
                   "Email",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                 ),
@@ -97,8 +97,8 @@ class _LoginPageState extends State<LoginPage> {
                     },
                       textInputAction: TextInputAction.next,
                       controller: email,
-                      decoration: InputDecoration(
-                        hintText: "Enter youre email address",
+                      decoration: const InputDecoration(
+                        hintText: "Enter you're email address",
                         hintStyle:
                             TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                         border: InputBorder.none,
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: mwidth * 0.08),
-                child: Text(
+                child: const Text(
                   "Password",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                 ),
@@ -137,8 +137,8 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       return null;
                     },
-                      decoration: InputDecoration(
-                        hintText: "Enter youre password",
+                      decoration: const InputDecoration(
+                        hintText: "Enter you're password",
                         hintStyle:
                             TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                         border: InputBorder.none,
@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.red,
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       "Log in",
                       style: TextStyle(
@@ -180,8 +180,8 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(left: mwidth * 0.52),
                 child: TextButton(
                     onPressed: () {},
-                    child: Text(
-                      "Forget youre password?",
+                    child: const Text(
+                      "Forget you're password?",
                       style: TextStyle(color: Colors.black),
                     )),
               ), Padding(

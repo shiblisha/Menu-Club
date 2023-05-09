@@ -1,43 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:menu_club/Ui/Bottom%20Navigater/category.dart';
+
+
 import 'package:menu_club/Ui/Bottom%20Navigater/home.dart';
-import 'package:menu_club/Ui/Bottom%20Navigater/oredes.dart';
+import 'package:menu_club/Ui/Bottom%20Navigater/category.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/prodect.dart';
 
 import 'Bottom Navigater/more.dart';
-class bottom_navigation extends StatefulWidget {
-  const bottom_navigation({Key? key}) : super(key: key);
+import 'Bottom Navigater/order.dart';
+class BottomNavigation extends StatefulWidget {
+  const BottomNavigation({Key? key}) : super(key: key);
 
   @override
-  State<bottom_navigation> createState() => _bottom_navigationState();
+  State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
-final pages =[ HomePage(),CategoryPage(),OrderPage(),ProductPage(),MorePage()];
+final pages =[ HomePage(),OrderPage(),CategoryPage(),ProductPage(),MorePage()];
 int activeIndex =0;
-class _bottom_navigationState extends State<bottom_navigation> {
+class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar:BottomNavigationBar(
+        selectedLabelStyle: TextStyle(color: Colors.red),
+        unselectedLabelStyle: TextStyle(color: Colors.black),
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             label: "Home",
             icon: Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-            label: 'Shop',
-            icon: Icon(Icons.shop),
+            label: 'Order',
+            icon: Icon(Icons.text_snippet_sharp),
           ),
           BottomNavigationBarItem(
-            label: 'Favorites',
-            icon: Icon(Icons.favorite),
+            label: 'Category',
+            icon: Icon(Icons.category_outlined),
           ),
           BottomNavigationBarItem(
-            label: 'Cart',
-            icon: Icon(Icons.shopping_cart),
+            label: 'Product',
+            icon: Icon(Icons.food_bank_outlined),
           ),
           BottomNavigationBarItem(
-            label: 'Profile',
+            label: 'More',
             icon: Icon(Icons.person),
           ),
         ],
@@ -49,9 +54,8 @@ class _bottom_navigationState extends State<bottom_navigation> {
         },
         selectedItemColor: Colors.red,
         unselectedItemColor: Colors.black,
-        selectedLabelStyle: TextStyle(color: Colors.red),
-        unselectedLabelStyle: TextStyle(color: Colors.black),
       ),
+
       body: pages[activeIndex],
     );
   }

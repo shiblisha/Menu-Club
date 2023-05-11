@@ -6,7 +6,7 @@ import 'package:menu_club/Ui/Bottom%20Navigater/category.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/prodect.dart';
 
 import 'Bottom Navigater/more.dart';
-import 'Bottom Navigater/order.dart';
+import 'Bottom Navigater/Order/order.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
 

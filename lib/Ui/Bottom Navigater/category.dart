@@ -12,7 +12,7 @@ class CategoryPage extends StatefulWidget {
 }
 
 List<bool> _toggleValue = [];
-List<dynamic>categories=[];
+late CategoryModel categories;
 
 class _CategoryPageState extends State<CategoryPage> {
   @override
@@ -109,25 +109,29 @@ class _CategoryPageState extends State<CategoryPage> {
                         );
                       }
                       if (state is CategoryblocLoaded){
-                        categories= BlocProvider.of<CategoryBloc>(context).categoryData['data'];
-                        print(categories);
+                        categories= BlocProvider.of<CategoryBloc>(context).categoryData;
+
                       return ListView.builder(
-                          itemCount: categories.length,
+                          itemCount: categories.payload!.data!.length,
                           itemBuilder: (ctx, index) {
                             for (int i = 1; i <= 10; i++) {
                               _toggleValue.add(false);
                             }
                             return Row(
                               children: [
-                                Text(
-                                  "Category Name",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 16),
-                                ),
+                                SizedBox(width: mwidth*0.02,),
                                 SizedBox(
-                                  width: mwidth * 0.2,
+                                  height: mheight*0.03,
+                                  width: mwidth*0.45,
+
+                                  child: Text(
+                                    categories.payload!.data![index].name,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 16),
+                                  ),
                                 ),
+
                                 Text("Edit",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w800,

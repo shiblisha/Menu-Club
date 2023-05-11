@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_club/Bloc/CategoryBloc/category_bloc.dart';
 import 'package:menu_club/Bloc/LoginBloc/login_bloc.dart';
+import 'package:menu_club/Bloc/OrderBloc/order_bloc.dart';
 
+import 'Bloc/StoreBloc/store_bloc.dart';
 import 'Ui/splashScreen.dart';
 
 String basePath = "https://menuclub.uk/api/";
-dynamic Keyvalue='';
 void main() {
   runApp(const MyApp());
 }
@@ -22,6 +23,10 @@ class MyApp extends StatelessWidget {
         create: (context) => LoginBloc(),),
         BlocProvider(
           create: (context) => CategoryBloc(),),
+        BlocProvider(
+          create: (context) => OrderBloc(),),
+        BlocProvider(
+          create: (context) => StoreBloc(),),
       ],
         child: MaterialApp(debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',

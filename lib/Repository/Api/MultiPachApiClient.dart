@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 class PatchMethodApiClient {
   static const String basepath =
-  // "http://192.168.1.9:3010/api";
       "https://menuclub.uk/api/";
 
   Future<http.Response> invokeApi({
@@ -22,20 +21,7 @@ class PatchMethodApiClient {
     request.headers.addAll(headerParams);
     print(basepath + Path);
     print("request : $basepath$Path");
-    // if (filepath != null) {
-    //   for (int i = 0; filepath.length > i; i++) {
-    //     if (filepath[i].path != "") {
-    //       request.files.add(await http.MultipartFile.fromPath(
-    //           isFiles ? 'files' : 'file', filepath[i].path.toString()));
-    //
-    //       // var multipartFile = await http.MultipartFile.fromPath(
-    //       //     "files", filepath[i].path.toString());
-    //       // print(filepath[i].path.toString());
-    //       // print(multipartFile.field);
-    //       // newList.add(multipartFile);
-    //     }
-    //   }
-    // }
+
 
     print(body);
     print("111111111111111111111111111111111111111111111111111111111");

@@ -39,6 +39,8 @@ dependencies:
   flutter_bloc: ^8.1.2
   shared_preferences: ^2.1.0
   qr_flutter: ^4.0.0
+  flutter_downloader: ^1.10.2
+  pdf: ^3.6.4
 
 
 

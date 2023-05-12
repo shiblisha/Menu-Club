@@ -15,6 +15,7 @@ List<bool> _toggleValue = [];
 late CategoryModel categories;
 
 class _CategoryPageState extends State<CategoryPage> {
+
   @override
   void initState() {
     BlocProvider.of<CategoryBloc>(context).add(FetchCategory(shopId: 1));
@@ -132,10 +133,13 @@ class _CategoryPageState extends State<CategoryPage> {
                                   ),
                                 ),
 
-                                Text("Edit",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 16)),
+                                TextButton(
+                                  onPressed: () { dialogBox(togleValue: _toggleValue[index]);},
+                                  child: Text("Edit",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 16,color: Colors.black)),
+                                ),
                                 SizedBox(
                                   width: mwidth * 0.02,
                                 ),
@@ -145,7 +149,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                   color: Colors.red,
                                 ),
                                 SizedBox(
-                                  width: mwidth * 0.2,
+                                  width: mwidth * 0.1,
                                 ),
                                 Switch(
                                   value: _toggleValue[index],
@@ -175,6 +179,66 @@ class _CategoryPageState extends State<CategoryPage> {
           ],
         ),
       ),
+    );
+  }
+  Future<void> dialogBox({required bool togleValue}) async {
+
+  
+
+    var mwidth = MediaQuery.of(context).size.width;
+    var mheight = MediaQuery.of(context).size.height;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        var size = MediaQuery.of(context).size;
+        return AlertDialog(
+
+          contentPadding: EdgeInsets.symmetric(
+            vertical: mheight * 0.8,
+          ),
+          title:Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text("is enablred",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+                  Switch(
+                    value: togleValue,
+                    onChanged: (value) {
+                      setState(() {
+                        togleValue = value;
+                      });
+                      print(_toggleValue);
+                    },
+                    activeTrackColor: Colors.red[400],
+                    activeColor: Colors.red,
+                  ),
+                ],
+              ),
+              SizedBox(height: mheight*0.02,),
+              Text("Category Name"),
+              Container(
+                height: mheight * 0.065,
+                width: mwidth * 0.9,
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(15)),
+                child: Padding(
+                  padding: EdgeInsets.only(left: mwidth * 0.02),
+                  child: TextFormField(
+                    decoration:  InputDecoration(
+                      hintText: "Enter you're password",
+                      hintStyle:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        );
+      },
     );
   }
 }

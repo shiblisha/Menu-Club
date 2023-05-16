@@ -115,7 +115,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       return ListView.builder(
                           itemCount: categories.payload!.data!.length,
                           itemBuilder: (ctx, index) {
-                            for (int i = 1; i <= 10; i++) {
+                            for (int i = 1; i <= categories.payload!.data!.length; i++) {
                               _toggleValue.add(false);
                             }
                             return Row(

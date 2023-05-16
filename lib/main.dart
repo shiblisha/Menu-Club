@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_club/Bloc/CategoryBloc/category_bloc.dart';
 import 'package:menu_club/Bloc/LoginBloc/login_bloc.dart';
 import 'package:menu_club/Bloc/OrderBloc/order_bloc.dart';
+import 'package:menu_club/Bloc/ProductBloc/product_bloc.dart';
 
 import 'Bloc/StoreBloc/store_bloc.dart';
 import 'Ui/splashScreen.dart';
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
           create: (context) => OrderBloc(),),
         BlocProvider(
           create: (context) => StoreBloc(),),
+        BlocProvider(
+          create: (context) => ProductBloc(),),
       ],
         child: MaterialApp(debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',

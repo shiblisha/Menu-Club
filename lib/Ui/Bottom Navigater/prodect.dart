@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:menu_club/Repository/ModelClass/ProductModel.dart';
+
+import '../../Bloc/ProductBloc/product_bloc.dart';
+import '../../main.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -6,8 +11,14 @@ class ProductPage extends StatefulWidget {
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
+
+List<bool> _toggleValue = [];
+late ProductModel products;
 class _ProductPageState extends State<ProductPage> {
-  List<bool> _toggleValue = [];
+  void initState() {
+    BlocProvider.of<ProductBloc>(context).add(FetchProduct(shopId: 1));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
@@ -28,7 +39,7 @@ class _ProductPageState extends State<ProductPage> {
         ),
         body: SingleChildScrollView(
             child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Center(
             child: Container(
               height: mheight * 0.04,
@@ -86,7 +97,17 @@ class _ProductPageState extends State<ProductPage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.grey[300]),
-                        child: ListView.builder(itemCount: 3,
+                        child: BlocBuilder<ProductBloc, ProductState>(
+  builder: (context, state) {
+    if (state is ProductblocLoading){
+      return Center(child: CircularProgressIndicator(),);
+
+    }if (state is ProductblocLoaded){
+      for (int i = 1; i <= products.payload!.data!.length; i++) {
+        _toggleValue.add(false);
+      }
+      products= BlocProvider.of<ProductBloc>(context).productData;
+    return ListView.builder(itemCount:products.payload!.data!.length ,
                           itemBuilder: (context, index) {
                           return Column(
                             children: [
@@ -99,7 +120,7 @@ class _ProductPageState extends State<ProductPage> {
                                     height: mheight*0.1,
                                     width: mwidth*0.2,
                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),),
-                                    child: Image.asset("assets/burger.jpg",fit: BoxFit.cover,),
+                                    child: Image.network(basePath+products.payload!.data![index].imageUrl.toString(),fit: BoxFit.cover,),
                                   ),
                                   SizedBox(width: mwidth*0.04,),
                                   Column(
@@ -108,11 +129,11 @@ class _ProductPageState extends State<ProductPage> {
                                       SizedBox(
                                         height: mheight*0.025,
                                           width: mwidth*0.3,
-                                          child:Text("Item Name",style:TextStyle(fontWeight: FontWeight.w500,fontSize: 15),)),
+                                          child:Text(products.payload!.data![index].name.toString(),style:TextStyle(fontWeight: FontWeight.w500,fontSize: 15),)),
                                       SizedBox(
                                         height: mheight*0.025,
                                         width: mwidth*0.3,
-                            child:Text("₹ 2000",style:TextStyle(fontWeight: FontWeight.w700,fontSize: 15),),
+                            child:Text("₹${products.payload!.data![index].price.toString()}",style:TextStyle(fontWeight: FontWeight.w700,fontSize: 15),),
                                       )
                                     ],
                                   ),   TextButton(
@@ -123,16 +144,14 @@ class _ProductPageState extends State<ProductPage> {
                                             fontSize: 16,color: Colors.black)),
                                   ),
                                   SizedBox(
-                                    width: mwidth * 0.02,
+                                    width: mwidth * 0.01,
                                   ),
                                   Icon(
                                     Icons.edit,
                                     size: 20,
                                     color: Colors.red,
                                   ),
-                                  SizedBox(
-                                    width: mwidth * 0.1,
-                                  ),
+                                 SizedBox(width: mwidth*0.05),
                                   Switch(
                                     value: _toggleValue[index],
                                     onChanged: (value) {
@@ -148,12 +167,19 @@ class _ProductPageState extends State<ProductPage> {
                               ),
                             ],
                           );
-                        },),
+                        },);}if (state is ProductblocError){
+      return Center(child: Text("Error"),);
+    }else {return SizedBox();}
+  },
+),
 
                       ),
                     ),
                   )
 
         ])));
+    }
+  
+
   }
-}
+

@@ -11,7 +11,7 @@ class OrderApi {
     var body = {
       'shopId': shopId.toString(),
     };
-    String path = 'store/category/view';
+    String path = 'store/orders/view';
 
     Response response = await apiClient.invokeApi(Path: path, method: "POST", body: body);
 

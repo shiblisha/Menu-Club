@@ -10,7 +10,7 @@ class ProductModel {
     payload = json['payload'] != null ? Payload.fromJson(json['payload']) : null;
   }
   bool? success;
-  String? status;
+  dynamic status;
   Payload? payload;
 
   Map<String, dynamic> toJson() {
@@ -52,8 +52,8 @@ class Payload {
 class Data {
   Data({
       this.id, 
-      this.name, 
-      this.categoryId, 
+      this.name,
+      this.categoryId,
       this.storeId, 
       this.isVeg, 
       this.isActive, 
@@ -80,19 +80,19 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
-  int? id;
-  String? name;
-  int? categoryId;
-  int? storeId;
-  int? isVeg;
-  int? isActive;
-  String? description;
-  int? price;
-  String? cookingTime;
-  String? imageUrl;
-  int? isRecommended;
-  String? createdAt;
-  String? updatedAt;
+  dynamic id;
+  dynamic name;
+  dynamic categoryId;
+  dynamic storeId;
+  dynamic isVeg;
+  dynamic isActive;
+  dynamic description;
+  dynamic price;
+  dynamic cookingTime;
+  dynamic imageUrl;
+  dynamic isRecommended;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

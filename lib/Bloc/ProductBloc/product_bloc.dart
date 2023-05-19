@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../Repository/Api/ProductApi/ProductApi.dart';
-import '../../Repository/ModelClass/ProductModel.dart';
+import '../../Repository/ModelClass/productModel.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';

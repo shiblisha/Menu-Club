@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_club/Repository/ModelClass/OrderModel.dart';
-
 import '../../../Bloc/OrderBloc/order_bloc.dart';
+import 'orderDetails.dart';
 class PendingPage extends StatefulWidget {
   const PendingPage({Key? key}) : super(key: key);
 
@@ -32,7 +32,8 @@ class _PendingPageState extends State<PendingPage> {
     return ListView.builder(
     itemCount: orders.payload!.data!.length,
       itemBuilder: (context, index) {
-
+        print(orders.payload!.data![index].orderUniqueId.toString());
+        print(orders.payload!.data!.length);
       return Column(
         children: [
           SizedBox(height: mheight*0.02,),
@@ -70,17 +71,22 @@ class _PendingPageState extends State<PendingPage> {
               SizedBox(height: mheight*0.02,),
               Padding(
                 padding:  EdgeInsets.only(left: mwidth*0.035),
-                child: Container(height: mheight*0.05,
-                width: mwidth*0.6,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(7),color: Colors.red,),
-                  child: Padding(
-                    padding:  EdgeInsets.only(left: mwidth*0.1),
-                    child: Row(
-                      children: [
-                        Text("View Order Details",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.white),),
-                        SizedBox(width: mwidth*0.02,),
-                        Icon(Icons.remove_red_eye,color: Colors.white,)
-                      ],
+                child: GestureDetector( onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => OrderDetails()));},
+
+                  child: Container(height: mheight*0.05,
+                  width: mwidth*0.6,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(7),color: Colors.red,),
+                    child: Padding(
+                      padding:  EdgeInsets.only(left: mwidth*0.1),
+                      child: Row(
+                        children: [
+                          Text("View Order Details",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.white),),
+                          SizedBox(width: mwidth*0.02,),
+                          Icon(Icons.remove_red_eye,color: Colors.white,)
+                        ],
+                      ),
                     ),
                   ),
                 ),

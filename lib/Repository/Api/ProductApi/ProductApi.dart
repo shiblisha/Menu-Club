@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:menu_club/Repository/ModelClass/ProductModel.dart';
+import '../../ModelClass/productModel.dart';
 import '../MultiPachApiClient.dart';
 
 class ProductApi {

@@ -10,7 +10,7 @@ class OrderModel {
     payload = json['payload'] != null ? Payload.fromJson(json['payload']) : null;
   }
   bool? success;
-  dynamic status;
+  String? status;
   Payload? payload;
 
   Map<String, dynamic> toJson() {
@@ -100,26 +100,26 @@ class Data {
     roomNumber = json['room_number'];
     dobCustomer = json['dob_customer'];
   }
-  dynamic id;
-  dynamic orderUniqueId;
-  dynamic storeId;
+  int? id;
+  String? orderUniqueId;
+  int? storeId;
   dynamic tableNo;
-  dynamic customerName;
-  dynamic customerPhone;
-  dynamic subTotal;
+  String? customerName;
+  String? customerPhone;
+  String? subTotal;
   dynamic discount;
-  dynamic tax;
-  dynamic storeCharge;
-  dynamic total;
-  dynamic status;
-  dynamic createdAt;
-  dynamic updatedAt;
-  dynamic comments;
-  dynamic paymentStatus;
-  dynamic orderType;
+  String? tax;
+  String? storeCharge;
+  String? total;
+  int? status;
+  String? createdAt;
+  String? updatedAt;
+  String? comments;
+  int? paymentStatus;
+  int? orderType;
   dynamic address;
-  dynamic paymentType;
-  dynamic callWaiterEnabled;
+  String? paymentType;
+  int? callWaiterEnabled;
   dynamic couponName;
   dynamic roomNumber;
   dynamic dobCustomer;

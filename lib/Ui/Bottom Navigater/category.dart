@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_club/Bloc/CategoryBloc/category_bloc.dart';
+import 'package:menu_club/Bloc/UpdateCategoryBloc/update_category_bloc.dart';
 
 import '../../Repository/ModelClass/CategoryModel.dart';
 
@@ -154,6 +155,18 @@ class _CategoryPageState extends State<CategoryPage> {
                                 Switch(
                                   value: _toggleValue[index],
                                   onChanged: (value) {
+                                    if(categories.payload!. data![index].isActive==1){
+                                      _toggleValue[index]=true;
+                                    }
+                                    if
+                                    (categories.payload!. data![index].isActive==1){
+                                      BlocProvider.of<UpdateCategoryBloc>(context).add(FetchUpdateCategory(   image_extension: 'png', is_active: 0, image: '', name: categories.payload!.data![index].name, CategoryId: categories.payload!.data![index].id, ShopId: 1));
+                                    }
+                                    if (categories.payload!.data![index].isActive==0){
+                                      BlocProvider.of<UpdateCategoryBloc>(context).add(FetchUpdateCategory(   image_extension: 'png', is_active: 1, image: '', name: categories.payload!.data![index].name, CategoryId: categories.payload!.data![index].id, ShopId: 1));
+
+                                    }
+
                                     setState(() {
                                       _toggleValue[index] = value;
                                     });
@@ -190,53 +203,82 @@ class _CategoryPageState extends State<CategoryPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        var size = MediaQuery.of(context).size;
-        return AlertDialog(
+        return WillPopScope(
+          onWillPop: ()async=>false,
+          child: AlertDialog(
 
-          contentPadding: EdgeInsets.symmetric(
-            vertical: mheight * 0.8,
-          ),
-          title:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text("is enablred",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                  Switch(
-                    value: togleValue,
-                    onChanged: (value) {
-                      setState(() {
-                        togleValue = value;
-                      });
-                      print(_toggleValue);
-                    },
-                    activeTrackColor: Colors.red[400],
-                    activeColor: Colors.red,
-                  ),
-                ],
-              ),
-              SizedBox(height: mheight*0.02,),
-              Text("Category Name"),
-              Container(
-                height: mheight * 0.065,
-                width: mwidth * 0.9,
-                decoration: BoxDecoration(
-                    border: Border.all(),
-                    borderRadius: BorderRadius.circular(15)),
-                child: Padding(
-                  padding: EdgeInsets.only(left: mwidth * 0.02),
-                  child: TextFormField(
-                    decoration:  InputDecoration(
-                      hintText: "Enter you're password",
-                      hintStyle:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                      border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: mheight * 0.8,
+            ),
+            title:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(children: [
+                  SizedBox(width: mwidth*0.54,),
+                  IconButton(icon: Icon(Icons.close,size: 25,), onPressed: () { Navigator.of(context).pop(); })
+                ],),
+                Row(
+                  children: [
+                    Text("is enablred",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+                    Switch(
+                      value: togleValue,
+                      onChanged: (value) {
+                        setState(() {
+                          togleValue = value;
+                        });
+                        print(_toggleValue);
+                      },
+                      activeTrackColor: Colors.red[400],
+                      activeColor: Colors.red,
+                    ),
+                  ],
+                ),
+                SizedBox(height: mheight*0.02,),
+                Text("Category Name"),
+                SizedBox(height: mheight*0.01,),
+                Container(
+                  height: mheight * 0.065,
+                  width: mwidth * 0.9,
+                  decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: mwidth * 0.02),
+                    child: TextFormField(
+                      decoration:  InputDecoration(
+                        hintText: "Enter you're password",
+                        hintStyle:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          )
+                SizedBox(height: mheight*0.01,),
+                Text("Photo"),
+                SizedBox(height: mheight*0.01,),
+                Container(
+                  height: mheight*0.05,
+                  width: mwidth*0.9,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.blue,),
+                  child: Center(
+                    child: Text("Select Photo"),
+                  ),
+                ),
+                SizedBox(height: mheight*0.02,),
+                Center(
+                  child: Container(
+                    height: mheight*0.05,
+                    width: mwidth*0.4,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.red,),
+                    child: Center(
+                      child: Text("Save"),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ),
         );
       },
     );

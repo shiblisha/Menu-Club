@@ -44,8 +44,8 @@ class _Splash_ScreenState extends State<Splash_Screen> {
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Center(
-        child: Image.asset('assets/logo_red.png',height: mheight * 0.4,
-            width: mwidth * 0.61),
+        child: Image.asset('assets/logo_red.png',height: mheight * 0.3,
+            width: mwidth * 0.52),
       ),
     );
   }

@@ -238,8 +238,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ],
                       );
-                    },),
-                  )],
+                    },
+                    ),
+                  ),
+                  Text("TOTAL AMOUNT")
+                ],
               ),
             )
           ],

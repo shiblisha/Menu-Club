@@ -99,13 +99,13 @@ class _ProductPageState extends State<ProductPage> {
     for (int i = 1; i <= products!.payload!.data!.length; i++) {
     _toggleValue.add(false);
     }
-    return Container(height: mheight,
-                width: mwidth,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.grey[300]),
-                child:SingleChildScrollView(
-                  child: ListView.builder(itemCount:products!.payload!.data!.length ,shrinkWrap: true,
+    return Center(
+      child: Container(height: mheight*0.69,
+                  width: mwidth,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.grey[300]),
+                  child:ListView.builder(itemCount:products!.payload!.data!.length ,shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
@@ -126,7 +126,7 @@ class _ProductPageState extends State<ProductPage> {
                                       children: [
                                         SizedBox(
                                             height: mheight*0.025,
-                                            width: mwidth*0.3,
+                                            width: mwidth*0.328,
                                             child:Text(products!.payload!.data![index].name.toString(),style:TextStyle(fontWeight: FontWeight.w500,fontSize: 15),)),
                                         SizedBox(
                                           height: mheight*0.025,
@@ -141,15 +141,13 @@ class _ProductPageState extends State<ProductPage> {
                                               fontWeight: FontWeight.w800,
                                               fontSize: 16,color: Colors.black)),
                                     ),
-                                    SizedBox(
-                                      width: mwidth * 0.01,
-                                    ),
+
                                     Icon(
                                       Icons.edit,
                                       size: 20,
                                       color: Colors.red,
                                     ),
-                                    SizedBox(width: mwidth*0.05),
+
                                     Switch(
                                       value: _toggleValue[index],
                                       onChanged: (value) {
@@ -167,10 +165,10 @@ class _ProductPageState extends State<ProductPage> {
                             );
                           },
 
-              ),
                 )
 
-              );
+                ),
+    );
   }if(state is ProductblocError){
     return Text("Error");}else{return SizedBox();}
     }
@@ -185,7 +183,6 @@ class _ProductPageState extends State<ProductPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        var size = MediaQuery.of(context).size;
         return WillPopScope(
           onWillPop: ()async=>false,
           child: AlertDialog(

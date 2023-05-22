@@ -1,9 +1,8 @@
-part of 'update_category_bloc.dart';
+part of 'add_category_bloc.dart';
 
 @immutable
-abstract class UpdateCategoryEvent {}
-
-class FetchUpdateCategory extends UpdateCategoryEvent {
+abstract class AddCategoryEvent {}
+class FetchAddCategory extends AddCategoryEvent {
   final int ShopId;
 
   final int CategoryId;
@@ -12,7 +11,7 @@ class FetchUpdateCategory extends UpdateCategoryEvent {
   final String image;
   final String image_extension;
 
-  FetchUpdateCategory({
+  FetchAddCategory({
     required this.ShopId,
     required this.image_extension,
     required this.is_active,

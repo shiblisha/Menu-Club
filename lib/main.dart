@@ -6,6 +6,7 @@ import 'package:menu_club/Bloc/OrderBloc/order_bloc.dart';
 import 'package:menu_club/Bloc/ProductBloc/product_bloc.dart';
 import 'package:menu_club/Bloc/UpdateCategoryBloc/update_category_bloc.dart';
 
+import 'Bloc/AddCategoryBloc/add_category_bloc.dart';
 import 'Bloc/StoreBloc/store_bloc.dart';
 import 'Ui/splashScreen.dart';
 
@@ -33,6 +34,8 @@ class MyApp extends StatelessWidget {
           create: (context) => ProductBloc(),),
         BlocProvider(
           create: (context) => UpdateCategoryBloc(),),
+    BlocProvider(
+          create: (context) => AddCategoryBloc(),),
       ],
         child: MaterialApp(debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',

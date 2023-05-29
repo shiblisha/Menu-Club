@@ -19,7 +19,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Colors.white,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {Navigator.of(context).pop();},
               icon: Icon(
                 Icons.arrow_back,
                 color: Colors.black,

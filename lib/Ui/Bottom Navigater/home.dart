@@ -55,133 +55,129 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: mheight * 0.1,
+                    height: mheight * 0.07,
                   ),
-                  Text(
-                    "Hello!",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
-                  SizedBox(
-                    height: mheight * 0.04,
-                  ),
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundImage: AssetImage("assets/logo_red.png"),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              shopName1.toString(),
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w700),
-                            ),
-                            SizedBox(
-                              height: mheight * 0.01,
-                            ),
-                            SizedBox(
-                              height: mheight * 0.07,
-                              width: mwidth * 0.58,
-                              child: Text(
-                                descripton1.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 13),
-                              ),
-                            ),
-                            SizedBox(
-                              height: mheight * 0.02,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: mheight * 0.08,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: mwidth * 0.05),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: mheight * 0.05,
-                            ),
-                            Text(
-                              "   No.of\nProducts",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w700),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: mheight * 0.2,
-                          width: mwidth * 0.2,
-                          child: VerticalDivider(
-                            thickness: 3,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(
-                          width: mwidth * 0.05,
-                        ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: mheight * 0.08,
-                            ),
-                            Text(
-                              store.payload!.data!.productCount.toString(),
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w700),
-                            )
-                          ],
-                        )
-                      ],
+                  Center(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: AssetImage("assets/logo_red.png"),
                     ),
                   ),
-                  SizedBox(
-                    height: mheight * 0.1,
-                  ),
-                  Row(
+                  SizedBox(height: mheight*0.02,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(border: Border.all(),borderRadius: BorderRadius.circular(15)),
-                        height: mheight*0.2,
-                        width: mwidth*0.4,
-                        child: QrImage(
-                          data: qrCodeUrl,
-                          version: QrVersions.auto,
-                          size: mwidth*0.4,
+                      Text(
+                        'Hello ${shopName1.toString()},',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w600,fontFamily:'title'),
+                      ),
+                      SizedBox(
+                        height: mheight * 0.01,
+                      ),
+                      SizedBox(
+                        height: mheight * 0.07,
+                        width: mwidth * 0.8,
+                        child: Text(
+                          descripton1.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 14,fontFamily: 'title'),
                         ),
                       ),
                       SizedBox(
-                        width: mwidth * 0.05,
-                      ),
-                      GestureDetector(onTap: (){
-                       // printDoc();
-                      },
-                        child: Container(
-                          height: mheight * 0.06,
-                          width: mwidth * 0.4,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.red),
-                          child: const Center(
-                              child: Text(
-                            "Download\n      Qr",
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w500),
-                          )),
-                        ),
+                        height: mheight * 0.02,
                       )
                     ],
+                  ),
+                    Text("Analytics",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: 'title'),),
+                  SizedBox(height: mheight*0.02,),
+                  Row(children: [
+                    Container(
+                      height: mheight*0.11,
+                      width: mwidth*0.23,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: Color(0xffF3F3F3)),
+                    child: Padding(
+                      padding:  EdgeInsets.only(left: mwidth*0.01,top: mheight*0.01),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset("assets/1.png",height:mheight*0.025,),
+                          SizedBox(height: mheight*0.01,),
+                          Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
+                          SizedBox(height: mheight*0.01,),
+
+                          Center(child: Text("Products ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
+                        ],
+                      ),
+                    ),),
+                    SizedBox(width: mwidth*0.08,),
+                    Container(
+                      height: mheight*0.11,
+                      width: mwidth*0.23,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: Color(0xffF3F3F3)),
+                      child: Padding(
+                        padding:  EdgeInsets.only(left: mwidth*0.01,top: mheight*0.01),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset("assets/2.png",height:mheight*0.025,),
+                            SizedBox(height: mheight*0.01,),
+                            Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
+                            SizedBox(height: mheight*0.01,),
+
+                            Center(child: Text("Pending ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
+                          ],
+                        ),
+                      ),),
+                    SizedBox(width: mwidth*0.08,),
+                    Container(
+                      height: mheight*0.11,
+                      width: mwidth*0.23,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: Color(0xffF3F3F3)),
+                      child: Padding(
+                        padding:  EdgeInsets.only(left: mwidth*0.01,top: mheight*0.01),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset("assets/3.png",height:mheight*0.025,),
+                            SizedBox(height: mheight*0.01,),
+                            Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
+                            SizedBox(height: mheight*0.01,),
+
+                            Center(child: Text("Orders ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
+                          ],
+                        ),
+                      ),)
+                  ],),
+                  SizedBox(height: mheight*0.02,),
+                  Text("Store Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+                  SizedBox(height: mheight*0.05,),
+                  Center(
+                    child: QrImage(
+                      data: qrCodeUrl,
+                      version: QrVersions.auto,
+                      size: mwidth*0.42,
+                    ),
+                  ),
+                 SizedBox(height: mheight*0.04,),
+                  GestureDetector(onTap: (){
+                   // printDoc();
+                  },
+                    child: Center(
+                      child: Container(
+                        height: mheight * 0.06,
+                        width: mwidth * 0.65,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.red),
+                        child: const Center(
+                            child: Text(
+                          "Download Qr Code",
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500,color: Color(0xffFFFFFF)),
+                        )),
+                      ),
+                    ),
                   ),
                 ],
               );

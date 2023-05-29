@@ -8,6 +8,7 @@ import 'package:menu_club/Bloc/UpdateCategoryBloc/update_category_bloc.dart';
 
 import 'Bloc/AddCategoryBloc/add_category_bloc.dart';
 import 'Bloc/StoreBloc/store_bloc.dart';
+import 'Bloc/UpdateStoreBloc/update_store_bloc.dart';
 import 'Ui/splashScreen.dart';
 
 String basePath = "https://menuclub.uk/api/";
@@ -36,9 +37,11 @@ class MyApp extends StatelessWidget {
           create: (context) => UpdateCategoryBloc(),),
     BlocProvider(
           create: (context) => AddCategoryBloc(),),
+        BlocProvider(
+          create: (context) => UpdateStoreBloc(),),
       ],
         child: MaterialApp(debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
+            title: 'Flutter Demo',  
             theme: ThemeData(
               // This is the theme of your application.
               //
@@ -53,8 +56,7 @@ class MyApp extends StatelessWidget {
             ),
             home: Splash_Screen()
         ),
-
-    );
+      );
   }
 }
 

@@ -12,6 +12,7 @@ class ProductPage extends StatefulWidget {
 }
 
 List<bool> _toggleValue = [false,false,false];
+bool toggle=false;
 ProductModel? products;
 class _ProductPageState extends State<ProductPage> {
   void initState() {
@@ -60,30 +61,32 @@ class _ProductPageState extends State<ProductPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: mwidth * 0.03),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: mwidth * 0.02,
-                    ),
-                    Container(
-                      height: mheight * 0.03,
-                      width: mwidth * 0.06,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.red),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
+                child: GestureDetector(onTap: (){dialogBox1(togleValue:toggle);},
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: mwidth * 0.02,
                       ),
-                    ),
-                    SizedBox(
-                      width: mwidth * 0.03,
-                    ),
-                    Text(
-                      "Add Product",
-                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
-                    )
-                  ],
+                      Container(
+                        height: mheight * 0.03,
+                        width: mwidth * 0.06,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.red),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        width: mwidth * 0.03,
+                      ),
+                      Text(
+                        "Add Product",
+                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -373,6 +376,204 @@ class _ProductPageState extends State<ProductPage> {
       },
     );
   }
+  Future<void> dialogBox1({required bool togleValue}) async {
 
+
+
+    var mwidth = MediaQuery.of(context).size.width;
+    var mheight = MediaQuery.of(context).size.height;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: ()async=>false,
+          child: AlertDialog(
+
+              contentPadding: EdgeInsets.symmetric(
+                vertical: mheight * 0.8,
+              ),
+              title:SizedBox(height: mheight*0.8,width: mwidth,
+                child: ListView(shrinkWrap: true,
+                  children: [
+                    Row(children: [
+                      SizedBox(width: mwidth*0.54,),
+                      IconButton(icon: Icon(Icons.close,size: 25,), onPressed: () { Navigator.of(context).pop(); })
+                    ],),
+                    Row(
+                      children: [
+                        Text("is enablred",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+                        Switch(
+                          value: togleValue,
+                          onChanged: (value) {
+                            setState(() {
+                              togleValue = value;
+                            });
+                            print(_toggleValue);
+                          },
+                          activeTrackColor: Colors.red[400],
+                          activeColor: Colors.red,
+                        ),
+                      ],
+                    ),Row(
+                      children: [
+                        Text("is Recomended",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+                        Switch(
+                          value: togleValue,
+                          onChanged: (value) {
+                            setState(() {
+                              togleValue = value;
+                            });
+                            print(_toggleValue);
+                          },
+                          activeTrackColor: Colors.red[400],
+                          activeColor: Colors.red,
+                        ),
+                      ],
+                    ),Row(
+                      children: [
+                        Text("is Veg",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+                        Switch(
+                          value: togleValue,
+                          onChanged: (value) {
+                            setState(() {
+                              togleValue = value;
+                            });
+                            print(_toggleValue);
+                          },
+                          activeTrackColor: Colors.red[400],
+                          activeColor: Colors.red,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: mheight*0.01,),
+                    Text("Category Name"),
+                    Container(
+                      height: mheight * 0.065,
+                      width: mwidth * 0.9,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: mwidth * 0.02),
+                        child: TextFormField(
+                          decoration:  InputDecoration(
+                            hintText: "Category Name",
+                            hintStyle:
+                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: mheight*0.01,),
+                    Text("Item Name"),
+                    Container(
+                      height: mheight * 0.065,
+                      width: mwidth * 0.9,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: mwidth * 0.02),
+                        child: TextFormField(
+                          decoration:  InputDecoration(
+                            hintText: "Item Name",
+                            hintStyle:
+                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: mheight*0.01,),
+                    Text("Price"),
+                    Container(
+                      height: mheight * 0.065,
+                      width: mwidth * 0.9,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: mwidth * 0.02),
+                        child: TextFormField(
+                          decoration:  InputDecoration(
+                            hintText: "Category Name",
+                            hintStyle:
+                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: mheight*0.01,),
+                    Text("Cooking Time (Minutes)"),
+                    Container(
+                      height: mheight * 0.065,
+                      width: mwidth * 0.9,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: mwidth * 0.02),
+                        child: TextFormField(
+                          decoration:  InputDecoration(
+                            hintText: "Category Name",
+                            hintStyle:
+                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: mheight*0.01,),
+                    Text("Discription"),
+                    Container(
+                      height: mheight * 0.065,
+                      width: mwidth * 0.9,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: EdgeInsets.only(left: mwidth * 0.02),
+                        child: TextFormField(
+                          decoration:  InputDecoration(
+                            hintText: "Item Discription",
+                            hintStyle:
+                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: mheight*0.01,),
+                    Text("Photo"),
+                    Container(
+                      height: mheight*0.05,
+                      width: mwidth*0.9,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.blue,),
+                      child: Center(
+                        child: Text("Select Photo"),
+                      ),
+                    ),
+                    SizedBox(height: mheight*0.02,),
+                    Padding(
+                      padding:  EdgeInsets.only(left: mwidth*0.16,right: mwidth*0.16),
+                      child: Container(
+                        height: mheight*0.05,
+                        width: mwidth*0.02,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.red,),
+                        child: Center(
+                          child: Text("Save"),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+          ),
+        );
+      },
+    );
+  }
   }
 

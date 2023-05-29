@@ -14,7 +14,6 @@ class CategoryPage extends StatefulWidget {
   @override
   State<CategoryPage> createState() => _CategoryPageState();
 }
-
 List<bool> _toggleValue = [];
 late CategoryModel categories;
 File? _image;
@@ -315,7 +314,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     height: mheight * 0.01,
                   ),
                   GestureDetector(onTap: (){getGalleryImage();},
-                    child: Container(
+                    child:_image==null? Container(
                       height: mheight * 0.05,
                       width: mwidth * 0.9,
                       decoration: BoxDecoration(
@@ -324,6 +323,14 @@ class _CategoryPageState extends State<CategoryPage> {
                       ),
                       child: Center(
                         child: Text("Select Photo"),
+                      ),
+                    ):Container(
+                      height: mheight*0.1,
+                      width: mwidth*0.3,
+                      child:
+                          Image.file(
+                        _image!.absolute,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -383,5 +390,9 @@ class _CategoryPageState extends State<CategoryPage> {
         print('no image found');
       }
     });
+  }
+  void dispose() {
+    _image = null;
+    super.dispose();
   }
 }

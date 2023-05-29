@@ -5,7 +5,7 @@ import 'package:menu_club/Ui/Bottom%20Navigater/home.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/category.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/prodect.dart';
 
-import 'Bottom Navigater/more.dart';
+import 'Bottom Navigater/More/more.dart';
 import 'Bottom Navigater/Order/order.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
@@ -27,23 +27,22 @@ class _BottomNavigationState extends State<BottomNavigation> {
         items: [
           BottomNavigationBarItem(
             label: "Home",
-            icon: Icon(Icons.home),
-          ),
+icon: ImageIcon(AssetImage("assets/home.png"),size: 30)          ),
           BottomNavigationBarItem(
             label: 'Order',
-            icon: Icon(Icons.text_snippet_sharp),
+            icon:  ImageIcon(AssetImage("assets/order.png"),size: 30)
           ),
           BottomNavigationBarItem(
             label: 'Category',
-            icon: Icon(Icons.category_outlined),
+            icon:  ImageIcon(AssetImage("assets/category.png"),size: 30)
           ),
           BottomNavigationBarItem(
             label: 'Product',
-            icon: Icon(Icons.food_bank_outlined),
+            icon:  ImageIcon(AssetImage("assets/product.png"),size: 30)
           ),
           BottomNavigationBarItem(
             label: 'More',
-            icon: Icon(Icons.person),
+            icon:  ImageIcon(AssetImage("assets/shop.png"),size: 30,)
           ),
         ],
         currentIndex: activeIndex,

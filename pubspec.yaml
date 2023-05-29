@@ -43,6 +43,7 @@ dependencies:
   pdf: ^3.6.4
   image_picker: ^0.8.7+5
   url_launcher: ^6.1.11
+  intl: ^0.18.1
 
 
 
@@ -89,7 +90,7 @@ flutter:
 fonts:
      - family: title
        fonts:
-         - asset: fonts/home1.ttf
+          - asset: fonts/Poppins-Bold.ttf
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

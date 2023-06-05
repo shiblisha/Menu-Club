@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:menu_club/Ui/Bottom%20Navigater/Order/orderDetails.dart';
 
 import '../../../Bloc/OrderBloc/order_bloc.dart';
 import '../../../Repository/ModelClass/OrderModel.dart';
@@ -11,8 +12,12 @@ class ComplettedPage extends StatefulWidget {
   State<ComplettedPage> createState() => _ComplettedPageState();
 }
 late OrderModel orders;
-
+List<dynamic>completed=[];
 class _ComplettedPageState extends State<ComplettedPage> {
+  void initState() {
+    BlocProvider.of<OrderBloc>(context).add(FetchOrders(ShopId: 1));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
@@ -23,19 +28,25 @@ class _ComplettedPageState extends State<ComplettedPage> {
       }
       if (state is OrderBlocLoaded) {
         orders = BlocProvider.of<OrderBloc>(context).orderModel;
+        for (int i = 0; i < orders.payload!.data!.length; i++) {
+          if (orders.payload!.data![i].status == 2) {
+            completed.add(orders.payload!.data![i]);
+          }
+        }
+
 
         return ListView.builder(
-            itemCount: orders.payload!.data!.length,
+            itemCount: completed.length,
             itemBuilder: (context, index) {
               String isoDate =
-              orders.payload!.data![index].createdAt.toString();
+              completed[index].createdAt.toString();
               DateTime dateTime = DateTime.parse(isoDate);
 
               String formattedDateTime =
               DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
 
-              print(orders.payload!.data![index].orderUniqueId.toString());
-              print(orders.payload!.data!.length);
+
+
               return Column(
                 children: [
                   SizedBox(
@@ -61,7 +72,7 @@ class _ComplettedPageState extends State<ComplettedPage> {
                                       fontFamily: 'title'),
                                 ),
                                 Text(
-                                    orders.payload!.data![index].orderUniqueId
+                                    completed[index].orderUniqueId
                                         .toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -85,7 +96,7 @@ class _ComplettedPageState extends State<ComplettedPage> {
                             Row(
                               children: [
                                 Text(
-                                  '₹${orders.payload!.data![index].total}/-',
+                                  '₹${completed[index].total}/-',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: 'title',
@@ -95,7 +106,7 @@ class _ComplettedPageState extends State<ComplettedPage> {
                                   width: mwidth * 0.02,
                                 ),
                                 Text(
-                                  "Accepted",
+                                  "Completed",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14,
@@ -107,7 +118,9 @@ class _ComplettedPageState extends State<ComplettedPage> {
 
 
                             TextButton(
-                                onPressed: () {},
+                                onPressed: (){
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (ctx) => OrderDetails(orderId: completed[index].id, total: completed[index].total,)));},
                                 child: Text(
                                   "View Details",
                                   style: TextStyle(
@@ -124,8 +137,8 @@ class _ComplettedPageState extends State<ComplettedPage> {
                     height: mheight * 0.02,
                   )
                 ],
-              );
-            });
+              );}
+            );
       }
       if (state is OrderBlocError) {
         return Center(

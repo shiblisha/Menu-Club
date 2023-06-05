@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 import 'package:menu_club/Ui/Bottom%20Navigater/home.dart';
-import 'package:menu_club/Ui/Bottom%20Navigater/category.dart';
+import 'package:menu_club/Ui/Bottom%20Navigater/Categorys/category.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/prodect.dart';
 
 import 'Bottom Navigater/More/more.dart';

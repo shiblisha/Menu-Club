@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:menu_club/Repository/ModelClass/OrderModel.dart';
+import 'package:menu_club/Ui/Bottom%20Navigater/Order/orderDetails.dart';
 import '../../../Bloc/OrderBloc/order_bloc.dart';
 
 class PendingPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class PendingPage extends StatefulWidget {
 }
 
 late OrderModel orders;
-
+List<dynamic>pending=[];
 class _PendingPageState extends State<PendingPage> {
   @override
   void initState() {
@@ -30,19 +31,25 @@ class _PendingPageState extends State<PendingPage> {
       }
       if (state is OrderBlocLoaded) {
         orders = BlocProvider.of<OrderBloc>(context).orderModel;
+        for (int i = 0; i < orders.payload!.data!.length; i++) {
+          if (orders.payload!.data![i].status == 1) {
+            pending.add(orders.payload!.data![i]);
+          }
+        }
+
+
 
         return ListView.builder(
-            itemCount: orders.payload!.data!.length,
+            itemCount: pending.length,
             itemBuilder: (context, index) {
               String isoDate =
-                  orders.payload!.data![index].createdAt.toString();
+              pending[index].createdAt.toString();
               DateTime dateTime = DateTime.parse(isoDate);
 
               String formattedDateTime =
                   DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
 
-              print(orders.payload!.data![index].orderUniqueId.toString());
-              print(orders.payload!.data!.length);
+
               return Column(
                 children: [
                   SizedBox(
@@ -55,73 +62,80 @@ class _PendingPageState extends State<PendingPage> {
                       child: Padding(
                         padding: EdgeInsets.only(
                             left: mwidth * 0.02, top: mheight * 0.005),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "Order No: ",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      fontFamily: 'title'),
-                                ),
-                                Text(
-                                    orders.payload!.data![index].orderUniqueId
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        fontFamily: 'title'))
-                              ],
-                            ),
-                            SizedBox(
-                              height: mheight * 0.005,
-                            ),
-                            Text(
-                              formattedDateTime.toString(),
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'title'),
-                            ),
-                            SizedBox(
-                              height: mheight * 0.005,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '₹${orders.payload!.data![index].total}/-',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'title',
-                                      fontWeight: FontWeight.w400),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Order No: ",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          fontFamily: 'title'),
+                                    ),
+                                    Text(
+                                        pending[index].orderUniqueId
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            fontFamily: 'title'))
+                                  ],
                                 ),
                                 SizedBox(
-                                  width: mwidth * 0.02,
+                                  height: mheight * 0.005,
                                 ),
                                 Text(
-                                  "Accepted",
+                                  formattedDateTime.toString(),
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w500,
                                       fontSize: 14,
-                                      fontFamily: 'title',
-                                      color: Color(0XFFF2994A)),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: 'title'),
                                 ),
+                                SizedBox(
+                                  height: mheight * 0.005,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '₹${pending[index].total}/-',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'title',
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    SizedBox(
+                                      width: mwidth * 0.02,
+                                    ),
+                                    Text(
+                                      "Accepted",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          fontFamily: 'title',
+                                          color: Color(0XFFF2994A)),
+                                    ),
+                                  ],
+                                ),
+
+
+                                TextButton(
+                                    onPressed: (){
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) => OrderDetails(orderId: pending[index].id, total: pending[index].total,)));},
+                                    child: Text(
+                                      "View Details",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: 'title',color: Color(0xffFF0000)),
+                                    ))
                               ],
                             ),
 
-
-                            TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  "View Details",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: 'title',color: Color(0xffFF0000)),
-                                ))
                           ],
                         ),
                       ),
@@ -131,8 +145,8 @@ class _PendingPageState extends State<PendingPage> {
                     height: mheight * 0.02,
                   )
                 ],
-              );
-            });
+              );}
+            );
       }
       if (state is OrderBlocError) {
         return Center(

@@ -1,8 +1,15 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:menu_club/main.dart';
 import '../../Bloc/ProductBloc/product_bloc.dart';
+import '../../Bloc/UpdateProducts/update_product_bloc.dart';
 import '../../Repository/ModelClass/productModel.dart';
-import '../../main.dart';
+import 'Categorys/category.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -11,569 +18,644 @@ class ProductPage extends StatefulWidget {
   State<ProductPage> createState() => _ProductPageState();
 }
 
-List<bool> _toggleValue = [false,false,false];
-bool toggle=false;
+List<bool> _toggleValue = [];
+bool toggle = false;
 ProductModel? products;
+File? _image;
+
 class _ProductPageState extends State<ProductPage> {
   void initState() {
     BlocProvider.of<ProductBloc>(context).add(FetchProduct(shopId: 1));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          title: Padding(
-            padding: EdgeInsets.only(left: mwidth * 0.1),
-            child: Text(
-              "Product",
-              style: TextStyle(color: Colors.black),
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              height: mheight * 0.04,
             ),
-          ),
-        ),
-        body: SingleChildScrollView(
-            child:
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Center(
-                child: Container(
-                  height: mheight * 0.04,
-                  width: mwidth * 0.9,
+            Row(
+              children: [
+                SizedBox(
+                  width: mwidth * 0.05,
+                ),
+                Container(
+                  height: mheight * 0.05,
+                  width: mwidth * 0.75,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey,
+                    border: Border.all(color: Colors.black),
                   ),
                   child: TextFormField(
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        icon: Icon(Icons.search),
-                        hintText: "Search"),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: mheight * 0.03,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: mwidth * 0.03),
-                child: GestureDetector(onTap: (){dialogBox1(togleValue:toggle);},
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: mwidth * 0.02,
-                      ),
-                      Container(
-                        height: mheight * 0.03,
-                        width: mwidth * 0.06,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.red),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
+                        icon: Icon(
+                          Icons.search,
+                          color: Colors.black,
                         ),
-                      ),
-                      SizedBox(
-                        width: mwidth * 0.03,
-                      ),
-                      Text(
-                        "Add Product",
-                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
-                      )
-                    ],
+                        hintText: "Search your spot",
+                        hintStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'title',
+                            color: Color(0xffA7A7A7))),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: mheight * 0.05,
-              ),
-              BlocBuilder<ProductBloc, ProductState>(
-    builder: (context, state) {
-    if (state is ProductblocLoading){
-    return Center(child: CircularProgressIndicator(),);
-
-    }if (state is ProductblocLoaded){
-    products= BlocProvider.of<ProductBloc>(context).productData;
-    for (int i = 1; i <= products!.payload!.data!.length; i++) {
-    _toggleValue.add(false);
-    }
-    return Center(
-      child: Container(height: mheight*0.69,
-                  width: mwidth,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.grey[300]),
-                  child:ListView.builder(itemCount:products!.payload!.data!.length ,shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                SizedBox(height: mheight*0.02,),
-                                Row(
-
+                SizedBox(
+                  width: mwidth * 0.05,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: mheight * 0.04,
+                    width: mwidth * 0.09,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        border: Border.all(color: Colors.black)),
+                    child: Center(
+                      child: Icon(
+                        Icons.add,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: mheight * 0.05,
+            ),
+            Center(
+              child: SizedBox(
+                height: mheight * 0.78,
+                child: BlocBuilder<ProductBloc, ProductState>(
+                    builder: (context, state) {
+                  if (state is ProductblocLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (state is ProductblocLoaded) {
+                    products =
+                        BlocProvider.of<ProductBloc>(context).productData;
+                    return ListView.builder(
+                      itemCount: products?.payload!.data!.length,
+                      itemBuilder: (context, index) {
+                        for (int i = 0;
+                            i < products!.payload!.data!.length;
+                            i++) {
+                          _toggleValue.add(false);
+                        }
+                        return Column(
+                          children: [
+                            Card(
+                              elevation: 2,
+                              child: Container(
+                                height: mheight * 0.15,
+                                width: mwidth * 0.9,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(width: mwidth*0.02,),
                                     Container(
-                                      height: mheight*0.1,
-                                      width: mwidth*0.2,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),),
-                                      child: Image.network(basePath+products!.payload!.data![index].imageUrl.toString(),fit: BoxFit.cover,),
+                                      height: mheight * 0.149,
+                                      width: mwidth * 0.33,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
+                                      child: Image.network(
+                                        basePath +
+                                            products?.payload!.data![index]
+                                                .imageUrl,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                    SizedBox(width: mwidth*0.04,),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: mheight * 0.01,
+                                          left: mwidth * 0.02),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: mheight * 0.03,
+                                            width: mwidth * 0.45,
+                                            child: Text(
+                                              products
+                                                  ?.payload!.data![index].name,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'title',
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: mheight * 0.03,
+                                            width: mwidth * 0.45,
+                                            child: Text(
+                                              "₹ ${products?.payload!.data![index].price}/-",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontFamily: 'title',
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                          RatingBar.builder(
+                                              itemCount: 5,
+                                              initialRating: 3,
+                                              allowHalfRating: true,
+                                              itemSize: 15,
+                                              itemBuilder: (ctx, index) => Icon(
+                                                    Icons.star,
+                                                    color: Color(0xffFFC113),
+                                                  ),
+                                              onRatingUpdate: (value) {
+                                                if (kDebugMode) {
+                                                  print(value);
+                                                }
+                                              }),
+                                          Row(
+                                            children: [
+                                              Transform.scale(
+                                                scale: 0.8,
+                                                // Adjust the scale value to change the size of the switch
+                                                child: Switch(
+                                                  value: _toggleValue[index],
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      _toggleValue[index] =
+                                                          value;
+                                                    });
+                                                    _toggleValue[index] == false
+                                                        ? BlocProvider.of<UpdateProductBloc>(context).add(FetchUpdateProduct(
+                                                            shopId: 1,
+                                                            is_recommended: 1,
+                                                            is_veg: 1,
+                                                            cooking_time: 1,
+                                                            category_id: 270,
+                                                            is_active: 1,
+                                                            image_extension: '',
+                                                            image: '',
+                                                            description: products!
+                                                                .payload!
+                                                                .data![index]
+                                                                .description,
+                                                            price: products!
+                                                                .payload!
+                                                                .data![index]
+                                                                .price,
+                                                            name: products!
+                                                                .payload!
+                                                                .data![index]
+                                                                .name,
+                                                            ItemId: 1854))
+                                                        : BlocProvider.of<UpdateProductBloc>(
+                                                                context)
+                                                            .add(FetchUpdateProduct(
+                                                                shopId: 1,
+                                                                is_recommended:
+                                                                    1,
+                                                                is_veg: 1,
+                                                                cooking_time: 1,
+                                                                category_id:
+                                                                    270,
+                                                                is_active: 1,
+                                                                image_extension:
+                                                                    '',
+                                                                image: '',
+                                                                description: products!
+                                                                    .payload!
+                                                                    .data![
+                                                                        index]
+                                                                    .description,
+                                                                price: products!
+                                                                    .payload!
+                                                                    .data![
+                                                                        index]
+                                                                    .price,
+                                                                name: products!
+                                                                    .payload!
+                                                                    .data![index]
+                                                                    .name,
+                                                                ItemId: 1854));
+
+                                                    print(_toggleValue);
+                                                  },
+                                                  activeTrackColor:
+                                                      Colors.red[400],
+                                                  activeColor: Colors.red,
+                                                ),
+                                              ),
+                                              Text(
+                                                _toggleValue[index] == true
+                                                    ? "Enabled"
+                                                    : "Disabled",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: 'home'),
+                                              ),
+                                              SizedBox(
+                                                width: mwidth * 0.12,
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+                                        GestureDetector(
+                                            onTap: () {
+                                              showModalBottomSheet<void>(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                isScrollControlled: true,
+                                                context: context,
+                                                builder: (BuildContext ctx) {
+                                                  return WillPopScope(
+                                                    onWillPop: () async =>
+                                                        false,
+                                                    child: Container(
+                                                        height: mheight * 0.9,
+                                                        child: bottomSheet()),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Image.asset(
+                                              "assets/edit.png",
+                                              height: mheight * 0.04,
+                                            )),
                                         SizedBox(
-                                            height: mheight*0.025,
-                                            width: mwidth*0.328,
-                                            child:Text(products!.payload!.data![index].name.toString(),style:TextStyle(fontWeight: FontWeight.w500,fontSize: 15),)),
-                                        SizedBox(
-                                          height: mheight*0.025,
-                                          width: mwidth*0.3,
-                                          child:Text("₹${products!.payload!.data![index].price.toString()}",style:TextStyle(fontWeight: FontWeight.w700,fontSize: 15),),
-                                        )
+                                          height: mheight * 0.07,
+                                        ),
+                                        ImageIcon(
+                                            AssetImage("assets/enabled.png"),
+                                            size: 15,
+                                            color: _toggleValue[index] == true
+                                                ? Colors.green
+                                                : Colors.red)
                                       ],
-                                    ),   TextButton(
-                                      onPressed: () {dialogBox(togleValue:  _toggleValue[index]); },
-                                      child: Text("Edit",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 16,color: Colors.black)),
-                                    ),
-
-                                    Icon(
-                                      Icons.edit,
-                                      size: 20,
-                                      color: Colors.red,
-                                    ),
-
-                                    Switch(
-                                      value: _toggleValue[index],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _toggleValue[index] = value;
-                                        });
-                                        print(_toggleValue);
-                                      },
-                                      activeTrackColor: Colors.red[400],
-                                      activeColor: Colors.red,
-                                    ),
+                                    )
                                   ],
                                 ),
-                              ],
-                            );
-                          },
+                              ),
+                            ),
+                            SizedBox(
+                              height: mheight * 0.02,
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                  if (state is ProductblocError) {
+                    return Center(
+                      child: Text('Error'),
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }),
+              ),
+            )
+          ]),
+        ),
+      ),
+    );
+  }
 
+  Widget bottomSheet() {
+    var mwidth = MediaQuery.of(context).size.width;
+    var mheight = MediaQuery.of(context).size.height;
+    List<bool> toggleValue1 = [false, false];
+    return Container(
+      height: mheight * 17.9,
+      width: mwidth * 0.2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+        color: Colors.white,
+      ),
+      child: ListView(children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding:
+                  EdgeInsets.only(left: mwidth * 0.02, top: mheight * 0.02),
+              child: IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(Icons.arrow_back),
+              ),
+            ),
+            SizedBox(
+              height: mheight * 0.02,
+            ),
+            Center(
+              child: Container(
+                height: mheight * 0.053,
+                width: mwidth * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: mwidth * 0.02),
+                  child: FormField<String>(
+                    builder: (FormFieldState<String> state) {
+                      return InputDecorator(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Category Name",
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'title',
+                            color: Color(0xff4B4B4B),
+                          ),
+                        ),
+                        isEmpty: state.value == null || state.value!.isEmpty,
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: state.value,
+                            isDense: true,
+                            onChanged: (newValue) {
+                              // Update the value when the selection changes
+                              state.didChange(newValue);
+                            },
+                            items: <String>[
+                              'Option 1',
+                              'Option 2',
+                              'Option 3',
+                            ].map<DropdownMenuItem<String>>(
+                              (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: mheight * 0.02,
+            ),
+            Center(
+              child: Container(
+                height: mheight * 0.053,
+                width: mwidth * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: mwidth * 0.02),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Product Name",
+                        hintStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'title',
+                            color: Color(0xff4B4B4B))),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: mheight * 0.02,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: mwidth * 0.05,
+                ),
+                Container(
+                  height: mheight * 0.053,
+                  width: mwidth * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: mwidth * 0.02),
+                    child: FormField<String>(
+                      builder: (FormFieldState<String> state) {
+                        return InputDecorator(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Veg",
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              fontFamily: 'title',
+                              color: Color(0xff4B4B4B),
+                            ),
+                          ),
+                          isEmpty: state.value == null || state.value!.isEmpty,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: state.value,
+                              isDense: true,
+                              onChanged: (newValue) {
+                                // Update the value when the selection changes
+                                state.didChange(newValue);
+                              },
+                              items: <String>[
+                                'Veg',
+                                'Non Veg',
+                              ].map<DropdownMenuItem<String>>(
+                                (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                },
+                              ).toList(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: mwidth * 0.09,
+                ),
+                Container(
+                  height: mheight * 0.053,
+                  width: mwidth * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: mwidth * 0.02),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Price",
+                          hintStyle: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              fontFamily: 'title',
+                              color: Color(0xff4B4B4B))),
+                    ),
+                  ),
                 )
-
+              ],
+            ),
+            SizedBox(
+              height: mheight * 0.02,
+            ),
+            Center(
+              child: Container(
+                height: mheight * 0.053,
+                width: mwidth * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black),
                 ),
-    );
-  }if(state is ProductblocError){
-    return Text("Error");}else{return SizedBox();}
-    }
-)])));
-  }
-  Future<void> dialogBox({required bool togleValue}) async {
-
-
-
-    var mwidth = MediaQuery.of(context).size.width;
-    var mheight = MediaQuery.of(context).size.height;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          onWillPop: ()async=>false,
-          child: AlertDialog(
-
-              contentPadding: EdgeInsets.symmetric(
-                vertical: mheight * 0.8,
+                child: Padding(
+                  padding: EdgeInsets.only(left: mwidth * 0.02),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Preparation Time (Min.)",
+                        hintStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'title',
+                            color: Color(0xff4B4B4B))),
+                  ),
+                ),
               ),
-              title:SizedBox(height: mheight*0.8,width: mwidth,
-                child: ListView(shrinkWrap: true,
-                  children: [
-                    Row(children: [
-                      SizedBox(width: mwidth*0.54,),
-                      IconButton(icon: Icon(Icons.close,size: 25,), onPressed: () { Navigator.of(context).pop(); })
-                    ],),
-                    Row(
-                      children: [
-                        Text("is enablred",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                        Switch(
-                          value: togleValue,
-                          onChanged: (value) {
-                            setState(() {
-                              togleValue = value;
-                            });
-                            print(_toggleValue);
-                          },
-                          activeTrackColor: Colors.red[400],
-                          activeColor: Colors.red,
-                        ),
-                      ],
-                    ),Row(
-                      children: [
-                        Text("is Recomended",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                        Switch(
-                          value: togleValue,
-                          onChanged: (value) {
-                            setState(() {
-                              togleValue = value;
-                            });
-                            print(_toggleValue);
-                          },
-                          activeTrackColor: Colors.red[400],
-                          activeColor: Colors.red,
-                        ),
-                      ],
-                    ),Row(
-                      children: [
-                        Text("is Veg",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                        Switch(
-                          value: togleValue,
-                          onChanged: (value) {
-                            setState(() {
-                              togleValue = value;
-                            });
-                            print(_toggleValue);
-                          },
-                          activeTrackColor: Colors.red[400],
-                          activeColor: Colors.red,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Category Name"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Category Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Item Name"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Item Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Price"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Category Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Cooking Time (Minutes)"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Category Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Discription"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Item Discription",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Photo"),
-                    Container(
-                      height: mheight*0.05,
-                      width: mwidth*0.9,
-                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.blue,),
-                      child: Center(
-                        child: Text("Select Photo"),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.02,),
-                    Padding(
-                      padding:  EdgeInsets.only(left: mwidth*0.16,right: mwidth*0.16),
-                      child: Container(
-                        height: mheight*0.05,
-                        width: mwidth*0.02,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.red,),
-                        child: Center(
-                          child: Text("Save"),
-                        ),
-                      ),
-                    ),
-                  ],
+            ),
+            SizedBox(
+              height: mheight * 0.02,
+            ),
+            Center(
+              child: Container(
+                height: mheight * 0.15,
+                width: mwidth * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.black),
                 ),
-              )
-          ),
-        );
-      },
-    );
-  }
-  Future<void> dialogBox1({required bool togleValue}) async {
-
-
-
-    var mwidth = MediaQuery.of(context).size.width;
-    var mheight = MediaQuery.of(context).size.height;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          onWillPop: ()async=>false,
-          child: AlertDialog(
-
-              contentPadding: EdgeInsets.symmetric(
-                vertical: mheight * 0.8,
+                child: Padding(
+                  padding: EdgeInsets.only(left: mwidth * 0.02),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Description",
+                        hintStyle: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            fontFamily: 'title',
+                            color: Color(0xff4B4B4B))),
+                  ),
+                ),
               ),
-              title:SizedBox(height: mheight*0.8,width: mwidth,
-                child: ListView(shrinkWrap: true,
-                  children: [
-                    Row(children: [
-                      SizedBox(width: mwidth*0.54,),
-                      IconButton(icon: Icon(Icons.close,size: 25,), onPressed: () { Navigator.of(context).pop(); })
-                    ],),
-                    Row(
-                      children: [
-                        Text("is enablred",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                        Switch(
-                          value: togleValue,
-                          onChanged: (value) {
-                            setState(() {
-                              togleValue = value;
-                            });
-                            print(_toggleValue);
-                          },
-                          activeTrackColor: Colors.red[400],
-                          activeColor: Colors.red,
-                        ),
-                      ],
-                    ),Row(
-                      children: [
-                        Text("is Recomended",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                        Switch(
-                          value: togleValue,
-                          onChanged: (value) {
-                            setState(() {
-                              togleValue = value;
-                            });
-                            print(_toggleValue);
-                          },
-                          activeTrackColor: Colors.red[400],
-                          activeColor: Colors.red,
-                        ),
-                      ],
-                    ),Row(
-                      children: [
-                        Text("is Veg",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-                        Switch(
-                          value: togleValue,
-                          onChanged: (value) {
-                            setState(() {
-                              togleValue = value;
-                            });
-                            print(_toggleValue);
-                          },
-                          activeTrackColor: Colors.red[400],
-                          activeColor: Colors.red,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Category Name"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Category Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Item Name"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Item Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Price"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Category Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Cooking Time (Minutes)"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Category Name",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Discription"),
-                    Container(
-                      height: mheight * 0.065,
-                      width: mwidth * 0.9,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: mwidth * 0.02),
-                        child: TextFormField(
-                          decoration:  InputDecoration(
-                            hintText: "Item Discription",
-                            hintStyle:
-                            TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.01,),
-                    Text("Photo"),
-                    Container(
-                      height: mheight*0.05,
-                      width: mwidth*0.9,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.blue,),
-                      child: Center(
-                        child: Text("Select Photo"),
-                      ),
-                    ),
-                    SizedBox(height: mheight*0.02,),
-                    Padding(
-                      padding:  EdgeInsets.only(left: mwidth*0.16,right: mwidth*0.16),
+            ),
+            SizedBox(
+              height: mheight * 0.02,
+            ),
+            GestureDetector(
+              onTap: () {
+                getGalleryImage();
+              },
+              child: _image == null
+                  ? Center(
                       child: Container(
-                        height: mheight*0.05,
-                        width: mwidth*0.02,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.red,),
-                        child: Center(
-                          child: Text("Save"),
+                        height: mheight * 0.15,
+                        width: mwidth * 0.9,
+                        child: Image.asset(
+                          "assets/upload image.png",
+                        ),
+                      ),
+                    )
+                  : Center(
+                      child: Container(
+                        height: mheight * 0.3,
+                        width: mwidth * 0.6,
+                        child: Image.file(
+                          _image!.absolute,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                  ],
+            ),
+            SizedBox(
+              height: mheight * 0.02,
+            ),
+            Row(
+              children: [
+                Transform.scale(
+                  scale: 0.9,
+                  // Adjust the scale value to change the size of the switch
+                  child: Switch(
+                    value: _toggleValue[0],
+                    onChanged: (value) {
+                      setState(() {
+                        _toggleValue[0] = !_toggleValue[0];
+                      });
+                    },
+                    activeTrackColor: Colors.red[400],
+                    activeColor: Colors.red,
+                  ),
                 ),
-              )
-          ),
-        );
-      },
+                Text(
+                  _toggleValue[0] == true ? "Enabled" : "Disabled",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'home'),
+                ),
+                SizedBox(
+                  width: mwidth * 0.12,
+                ),
+              ],
+            )
+          ],
+        ),
+      ]),
     );
   }
+
+  Future<void> getGalleryImage() async {
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('no image found');
+      }
+    });
   }
 
+  void dispose() {
+    _image = null;
+    super.dispose();
+  }
+}

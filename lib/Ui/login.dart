@@ -39,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
       String shopid=BlocProvider.of<LoginBloc>(context).loginModel.payload!.user!.id.toString();
       String shopname=BlocProvider.of<LoginBloc>(context).loginModel.payload!.user!.storeName.toString();
       String description=BlocProvider.of<LoginBloc>(context).loginModel.payload!.user!.description.toString();
-      print(shopname);
       userInfo(token,shopid,shopname,description);
       Navigator.push(context,
           MaterialPageRoute(builder: (context) =>const BottomNavigation()));
@@ -65,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                  Padding(
                    padding:  EdgeInsets.only(left: mwidth*0.05),
-                   child: Text(
+                   child: const Text(
                     "Welcome Back",
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24,color: Color(0xffFF0000),fontFamily: "title"),
                 ),
@@ -75,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding:EdgeInsets.only(left: mwidth*0.05),
-                  child: Text("Please sign in to continue",style: TextStyle(fontSize:20,fontWeight: FontWeight.w500,fontFamily: "title" ),),
+                  child: const Text("Please sign in to continue",style: TextStyle(fontSize:20,fontWeight: FontWeight.w500,fontFamily: "title" ),),
                 ),
 
                 SizedBox(
@@ -124,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
-                    child: Container(
+                    child: SizedBox(
                       height: mheight * 0.065,
                       width: mwidth * 0.9,
 

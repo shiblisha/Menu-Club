@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:menu_club/Ui/Bottom%20Navigater/Order/orderDetails.dart';
 
 import '../../../Bloc/OrderBloc/order_bloc.dart';
+
 import '../../../Repository/ModelClass/OrderModel.dart';
-import 'orderDetails.dart';
 
 class CanceledPage extends StatefulWidget {
   const CanceledPage({Key? key}) : super(key: key);
@@ -12,9 +13,14 @@ class CanceledPage extends StatefulWidget {
   @override
   State<CanceledPage> createState() => _CanceledPageState();
 }late OrderModel orders;
-
+List<dynamic>canceled=[];
 class _CanceledPageState extends State<CanceledPage> {
+  void initState() {
+    BlocProvider.of<OrderBloc>(context).add(FetchOrders(ShopId: 1));
+    super.initState();
+  }
   @override
+
   Widget build(BuildContext context) {
     var mwidth = MediaQuery
         .of(context)
@@ -31,18 +37,25 @@ class _CanceledPageState extends State<CanceledPage> {
       if (state is OrderBlocLoaded) {
         orders = BlocProvider.of<OrderBloc>(context).orderModel;
 
+        for (int i = 0; i < orders.payload!.data!.length; i++) {
+          if (orders.payload!.data![i].status == 3) {
+            canceled.add(orders.payload!.data![i]);
+          }
+        }
+
+        print(canceled.length);
         return ListView.builder(
-            itemCount: orders.payload!.data!.length,
+            itemCount:canceled.length,
             itemBuilder: (context, index) {
               String isoDate =
-              orders.payload!.data![index].createdAt.toString();
+              canceled[index].createdAt.toString();
               DateTime dateTime = DateTime.parse(isoDate);
 
               String formattedDateTime =
               DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
 
-              print(orders.payload!.data![index].orderUniqueId.toString());
-              print(orders.payload!.data!.length);
+
+
               return Column(
                 children: [
                   SizedBox(
@@ -68,7 +81,7 @@ class _CanceledPageState extends State<CanceledPage> {
                                       fontFamily: 'title'),
                                 ),
                                 Text(
-                                    orders.payload!.data![index].orderUniqueId
+                                   canceled[index].orderUniqueId
                                         .toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -92,7 +105,7 @@ class _CanceledPageState extends State<CanceledPage> {
                             Row(
                               children: [
                                 Text(
-                                  '₹${orders.payload!.data![index].total}/-',
+                                  '₹${canceled[index].total}/-',
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontFamily: 'title',
@@ -102,7 +115,7 @@ class _CanceledPageState extends State<CanceledPage> {
                                   width: mwidth * 0.02,
                                 ),
                                 Text(
-                                  "Accepted",
+                                  "Cancelled",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14,
@@ -114,7 +127,9 @@ class _CanceledPageState extends State<CanceledPage> {
 
 
                             TextButton(
-                                onPressed: () {},
+                                onPressed: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (ctx) => OrderDetails(orderId: canceled[index].id, total: canceled[index].total,)));},
                                 child: Text(
                                   "View Details",
                                   style: TextStyle(
@@ -131,8 +146,8 @@ class _CanceledPageState extends State<CanceledPage> {
                     height: mheight * 0.02,
                   )
                 ],
-              );
-            });
+              );}
+        );
       }
       if (state is OrderBlocError) {
         return Center(

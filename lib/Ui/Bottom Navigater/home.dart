@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../Bloc/StoreBloc/store_bloc.dart';
 import '../../Repository/ModelClass/StoreModel.dart';
 
@@ -35,7 +34,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(shopName1.toString());
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -44,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         child: BlocBuilder<StoreBloc, StoreState>(
           builder: (context, state) {
             if (state is StoreBlocLoading) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -57,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: mheight * 0.07,
                   ),
-                  Center(
+                  const Center(
                     child: CircleAvatar(
                       radius: 50,
                       backgroundImage: AssetImage("assets/logo_red.png"),
@@ -69,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'Hello ${shopName1.toString()},',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.w600,fontFamily:'title'),
                       ),
                       SizedBox(
@@ -80,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                         width: mwidth * 0.8,
                         child: Text(
                           descripton1.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w400, fontSize: 14,fontFamily: 'title'),
                         ),
                       ),
@@ -89,13 +87,13 @@ class _HomePageState extends State<HomePage> {
                       )
                     ],
                   ),
-                    Text("Analytics",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: 'title'),),
+                    const Text("Analytics",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,fontFamily: 'title'),),
                   SizedBox(height: mheight*0.02,),
                   Row(children: [
                     Container(
                       height: mheight*0.11,
                       width: mwidth*0.23,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: Color(0xffF3F3F3)),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: const Color(0xffF3F3F3)),
                     child: Padding(
                       padding:  EdgeInsets.only(left: mwidth*0.01,top: mheight*0.01),
                       child: Column(
@@ -103,10 +101,10 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Image.asset("assets/1.png",height:mheight*0.025,),
                           SizedBox(height: mheight*0.01,),
-                          Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
+                          const Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
                           SizedBox(height: mheight*0.01,),
 
-                          Center(child: Text("Products ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
+                          const Center(child: Text("Products ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
                         ],
                       ),
                     ),),
@@ -114,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: mheight*0.11,
                       width: mwidth*0.23,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: Color(0xffF3F3F3)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: const Color(0xffF3F3F3)),
                       child: Padding(
                         padding:  EdgeInsets.only(left: mwidth*0.01,top: mheight*0.01),
                         child: Column(
@@ -122,10 +120,10 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Image.asset("assets/2.png",height:mheight*0.025,),
                             SizedBox(height: mheight*0.01,),
-                            Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
+                            const Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
                             SizedBox(height: mheight*0.01,),
 
-                            Center(child: Text("Pending ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
+                            const Center(child: Text("Pending ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
                           ],
                         ),
                       ),),
@@ -133,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: mheight*0.11,
                       width: mwidth*0.23,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: Color(0xffF3F3F3)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: const Color(0xffF3F3F3)),
                       child: Padding(
                         padding:  EdgeInsets.only(left: mwidth*0.01,top: mheight*0.01),
                         child: Column(
@@ -141,19 +139,19 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Image.asset("assets/3.png",height:mheight*0.025,),
                             SizedBox(height: mheight*0.01,),
-                            Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
+                            const Center(child: Text("23",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w600,fontFamily: 'title'),)),
                             SizedBox(height: mheight*0.01,),
 
-                            Center(child: Text("Orders ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
+                            const Center(child: Text("Orders ",style:TextStyle(fontSize: 14,fontFamily: 'title',fontWeight: FontWeight.w500),))
                           ],
                         ),
                       ),)
                   ],),
                   SizedBox(height: mheight*0.02,),
-                  Text("Store Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+                   Text("Store Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
                   SizedBox(height: mheight*0.05,),
                   Center(
-                    child: QrImage(
+                    child: QrImageView(
                       data: qrCodeUrl,
                       version: QrVersions.auto,
                       size: mwidth*0.42,
@@ -183,11 +181,11 @@ class _HomePageState extends State<HomePage> {
               );
             }
             if (state is StoreBlocError) {
-              return Center(
+              return const Center(
                 child: Text("Error"),
               );
             } else {
-              return SizedBox();
+              return const SizedBox();
             }
           },
         ),

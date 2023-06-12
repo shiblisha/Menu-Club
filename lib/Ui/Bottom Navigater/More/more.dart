@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/More/outletInfo.dart';
+
 class MorePage extends StatefulWidget {
   const MorePage({Key? key}) : super(key: key);
 
@@ -17,86 +18,88 @@ class _MorePageState extends State<MorePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-            height: mheight*0.3,
-              width: mwidth,
-              child: Padding(
-                padding:  EdgeInsets.only(top: mheight*0.07),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(width: mwidth*0.05,),
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage("assets/logo_red.png"),
+            Center(
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage("assets/logo_red.png"),
+              ),
+            ),
+            SizedBox(
+              height: mheight * 0.03,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: mwidth * 0.05),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                      height: mheight * 0.025,
+                      width: mwidth * 0.5,
+                      child: Text(
+                        "Demo Store",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'title'),
+                      )),
+                  SizedBox(height:  mheight*0.01,),
+                  Container(
+                    height: mheight*0.15,
+                    width: mwidth*0.9,
+                    child: Text(
+                      "Neque porro quisquam est, qui dolothytfdcgfdgerdgrdegvrfcgvrccgerrsrfesageadszvczsdfwt4q3geravtrhrem ipsum quia dolor sit amet, consectetur, adipisci velit, sed qu.",
+                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: 'title'),
                     ),
-                    Padding(
-                      padding:  EdgeInsets.only(left: mwidth*0.02),
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: mheight*0.02,),
-                        SizedBox(
-                          height: mheight*0.03,
-                            width: mwidth*0.6,
-                            child: Text("Demo Store",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w700),)),
-                        SizedBox(height: mheight*0.01,),
-                        SizedBox(
-                          width: mwidth*0.6,
-                          height: mheight*0.1,
-                          child: Text("This is a demo store for reference purpose only. none of orders and products are not real. Thankyou",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400),),
-                        )
-                      ],),
-                    )
-
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: mheight*0.05,),
-            Center(
-              child: GestureDetector(onTap:(){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>OutletInfo()));},
-                child: Container(height: mheight*0.08,
-                width: mwidth*0.85,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Color(0xffD9D9D9)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: mwidth*0.2,),
-                    Image.asset("assets/primary.png",height: mheight*0.035,width: mwidth*0.08,),
-                    SizedBox(width: mwidth*0.05,),
-                    Text("Otlet Info",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w400),)
-                  ],
-                ),),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => OutletInfo()));
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(width: mwidth*0.06,),
+                  Container(
+                    height: mheight*0.03,
+                    width: mwidth*0.78,
+                    child: Text(
+                      "Otlet Info",
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  ImageIcon(AssetImage("assets/next.png"))
+                ],
               ),
             ),
-            SizedBox(height: mheight*0.03,),
-            Center(
-              child: Container(height: mheight*0.08,
-                width: mwidth*0.85,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Color(0xffD9D9D9)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: mwidth*0.2,),
-                    Image.asset("assets/card.png",height: mheight*0.035,width: mwidth*0.08,),
-                    SizedBox(width: mwidth*0.05,),
-                    Text("Subscription",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w400),)
-                  ],
-                ),),
+            SizedBox(
+              height: mheight * 0.03,
             ),
-            SizedBox(height: mheight*0.03,),
-            Center(
-              child: Container(height: mheight*0.08,
-                width: mwidth*0.85,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Color(0xffD9D9D9)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: mwidth*0.2,),
-                    Image.asset("assets/logout.png",height: mheight*0.035,width: mwidth*0.08,),
-                    SizedBox(width: mwidth*0.05,),
-                    Text("Logout",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w400),)
-                  ],
-                ),),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => OutletInfo()));
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(width: mwidth*0.06,),
+                  Container(
+                    height: mheight*0.03,
+                    width: mwidth*0.78,
+                    child: Text(
+                      "Subscription",
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  ImageIcon(AssetImage("assets/next.png"))
+                ],
+              ),
             ),
           ],
         ),

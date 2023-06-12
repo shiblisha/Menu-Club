@@ -10,6 +10,7 @@ class CategoryDialog extends StatefulWidget {
   @override
   State<CategoryDialog> createState() => _CategoryDialogState();
 }
+bool toggle = false;
 File? _image;
 
 TextEditingController name = TextEditingController();
@@ -107,7 +108,7 @@ class _CategoryDialogState extends State<CategoryDialog> {
               ),
               Row(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Enabled',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: 'title'),)
+                Text('Enabled',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: 'title'),),
               ],),
               SizedBox(
                 height: mheight * 0.02,

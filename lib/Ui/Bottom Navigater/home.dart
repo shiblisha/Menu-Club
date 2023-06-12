@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                       ),)
                   ],),
                   SizedBox(height: mheight*0.02,),
-                   Text("Store Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+                   const Text("Store Details",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
                   SizedBox(height: mheight*0.05,),
                   Center(
                     child: QrImageView(

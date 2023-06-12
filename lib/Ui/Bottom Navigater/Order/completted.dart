@@ -14,6 +14,7 @@ class ComplettedPage extends StatefulWidget {
 late OrderModel orders;
 List<dynamic>completed=[];
 class _ComplettedPageState extends State<ComplettedPage> {
+  @override
   void initState() {
     BlocProvider.of<OrderBloc>(context).add(FetchOrders(ShopId: 1));
     super.initState();
@@ -24,7 +25,7 @@ class _ComplettedPageState extends State<ComplettedPage> {
     var mheight = MediaQuery.of(context).size.height;
     return BlocBuilder<OrderBloc, OrderState>(builder: (context, state) {
       if (state is OrderBlocLoading) {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       }
       if (state is OrderBlocLoaded) {
         orders = BlocProvider.of<OrderBloc>(context).orderModel;

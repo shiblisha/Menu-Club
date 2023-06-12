@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:menu_club/Ui/Bottom%20Navigater/home.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/Categorys/category.dart';
-import 'package:menu_club/Ui/Bottom%20Navigater/prodect.dart';
+import 'package:menu_club/Ui/Bottom%20Navigater/Product/prodect.dart';
 
 import 'Bottom Navigater/More/more.dart';
 import 'Bottom Navigater/Order/order.dart';

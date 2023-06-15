@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:menu_club/Ui/Bottom%20Navigater/More/outletInfo.dart';
+import 'package:menu_club/Ui/Bottom%20Navigater/More/subscription.dart';
+
+import 'outletInfo.dart';
 
 class MorePage extends StatefulWidget {
   const MorePage({Key? key}) : super(key: key);
@@ -82,7 +84,7 @@ class _MorePageState extends State<MorePage> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => OutletInfo()));
+                    MaterialPageRoute(builder: (context) => SubscriptionPage()));
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

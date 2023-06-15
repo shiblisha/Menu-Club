@@ -10,7 +10,7 @@ class CategoryDialog extends StatefulWidget {
   @override
   State<CategoryDialog> createState() => _CategoryDialogState();
 }
-bool toggle = false;
+bool toggleValue = false;
 File? _image;
 
 TextEditingController name = TextEditingController();
@@ -85,10 +85,10 @@ class _CategoryDialogState extends State<CategoryDialog> {
                 },
                 child: _image == null
                     ? Center(
-                  child: Container(
-                    height: mheight * 0.15,
-                    width: mwidth * 0.9,
-                    child: Image.asset("assets/upload image.png",
+                         child: Container(
+                           height: mheight * 0.15,
+                            width: mwidth * 0.9,
+                          child: Image.asset("assets/upload image.png",
 
 
                     ),
@@ -103,12 +103,24 @@ class _CategoryDialogState extends State<CategoryDialog> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: mheight * 0.02,
-              ),
               Row(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Enabled',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: 'title'),),
+                SizedBox(width: mwidth*0.04,),
+                Padding(
+                  padding:  EdgeInsets.only(top: mheight*0.02),
+                  child: Text('Enabled',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: 'title'),),
+                ),
+                SizedBox(width: mwidth*0.3,),
+                Switch(
+                  activeTrackColor: Colors.red[400],
+                  activeColor: Colors.red,
+                  value: toggleValue,
+                  onChanged: (value) {
+                    setState(() {
+                      toggleValue = value;
+                    });
+                  },
+                ),
               ],),
               SizedBox(
                 height: mheight * 0.02,
@@ -126,7 +138,7 @@ class _CategoryDialogState extends State<CategoryDialog> {
                       color: Colors.red,
                     ),
                     child: Center(
-                      child: Text("Save"),
+                      child: Text("Add",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,color: Colors.white),),
                     ),
                   ),
                 ),
@@ -147,6 +159,7 @@ class _CategoryDialogState extends State<CategoryDialog> {
       }
     });
   }
+  @override
   void dispose() {
     _image = null;
     super.dispose();

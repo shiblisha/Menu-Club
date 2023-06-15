@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import '../../ModelClass/CategoryModel.dart';
+import '../../ModelClass/UdateCategoryModel.dart';
 import '../MultiPachApiClient.dart';
 
 class UpdateCategoryApi {
   PatchMethodApiClient apiClient = PatchMethodApiClient();
 
-  Future<CategoryModel> getUpdateCategory(
+  Future<UdateCategoryModel> getUpdateCategory(
       {required int shopId,
       required String name,
       required String image,
@@ -27,6 +28,6 @@ class UpdateCategoryApi {
     Response response =
         await apiClient.invokeApi(Path: path, method: 'POST', body: body);
 
-    return CategoryModel.fromJson(jsonDecode(response.body));
+    return UdateCategoryModel.fromJson(jsonDecode(response.body));
   }
 }

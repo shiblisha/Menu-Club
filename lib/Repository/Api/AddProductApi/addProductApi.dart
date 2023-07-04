@@ -1,14 +1,13 @@
 import 'dart:convert';
+
 import 'package:http/http.dart';
-import '../../ModelClass/UpdateProductModel.dart';
+import 'package:menu_club/Repository/ModelClass/AddProductModel.dart';
 import '../MultiPachApiClient.dart';
 
-class UpdateProductApi {
+class AddProductApi {
   PatchMethodApiClient apiClient = PatchMethodApiClient();
 
-  Future<UpdateProductModel> getUpdateProduct({
-    required int shopId,
-    required int ItemId,
+  Future<AddProductModel> getAddProduct({  required int shopId,
     required String name,
     required int price,
     required String description,
@@ -18,11 +17,9 @@ class UpdateProductApi {
     required int category_id,
     required int cooking_time,
     required int is_veg,
-    required int is_recommended,
-  }) async {
+    required int is_recommended,}) async {
     var body = {
       'shopId': shopId.toString(),
-      'ItemId': ItemId.toString(),
       'name': name,
       'price': price.toString(),
       'description': description,
@@ -34,10 +31,10 @@ class UpdateProductApi {
       'is_veg': is_veg.toString(),
       'is_recommended': is_recommended.toString(),
     };
-    String path = 'store/product/update';
+    String path = 'store/category/view';
 
-    Response response = await apiClient.invokeApi(Path: path, method: 'POST', body: body);
+    Response response = await apiClient.invokeApi(Path: path, method:'POST' , body: body);
 
-    return UpdateProductModel.fromJson(jsonDecode(response.body));
+    return  AddProductModel.fromJson(jsonDecode(response.body));
   }
 }

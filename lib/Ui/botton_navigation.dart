@@ -1,49 +1,54 @@
 import 'package:flutter/material.dart';
 
-
-import 'package:menu_club/Ui/Bottom%20Navigater/home.dart';
-import 'package:menu_club/Ui/Bottom%20Navigater/Categorys/category.dart';
-import 'package:menu_club/Ui/Bottom%20Navigater/Product/prodect.dart';
-
+import 'Bottom Navigater/Categorys/category.dart';
+import 'Bottom Navigater/Home/home.dart';
 import 'Bottom Navigater/More/more.dart';
 import 'Bottom Navigater/Order/order.dart';
+import 'Bottom Navigater/Product/prodect.dart';
+
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
+int activeIndex = 0;
+final pages = [
+  HomePage(),
+  OrderPage(),
+  CategoryPage(),
+  ProductPage(),
+  MorePage()
+];
 
-final pages =[ HomePage(),OrderPage(),CategoryPage(),ProductPage(),MorePage()];
-int activeIndex =0;
+
 class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar:BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         selectedLabelStyle: TextStyle(color: Colors.red),
         unselectedLabelStyle: TextStyle(color: Colors.black),
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            label: "Home",
-icon: ImageIcon(AssetImage("assets/home.png"),size: 30)          ),
+              label: "Home",
+              icon: ImageIcon(AssetImage("assets/home.png"), size: 30)),
           BottomNavigationBarItem(
-            label: 'Order',
-            icon:  ImageIcon(AssetImage("assets/order.png"),size: 30)
-          ),
+              label: 'Order',
+              icon: ImageIcon(AssetImage("assets/order.png"), size: 30)),
           BottomNavigationBarItem(
-            label: 'Category',
-            icon:  ImageIcon(AssetImage("assets/category.png"),size: 30)
-          ),
+              label: 'Category',
+              icon: ImageIcon(AssetImage("assets/category.png"), size: 30)),
           BottomNavigationBarItem(
-            label: 'Product',
-            icon:  ImageIcon(AssetImage("assets/product.png"),size: 30)
-          ),
+              label: 'Product',
+              icon: ImageIcon(AssetImage("assets/product.png"), size: 30)),
           BottomNavigationBarItem(
-            label: 'More',
-            icon:  ImageIcon(AssetImage("assets/shop.png"),size: 30,)
-          ),
+              label: 'More',
+              icon: ImageIcon(
+                AssetImage("assets/shop.png"),
+                size: 30,
+              )),
         ],
         currentIndex: activeIndex,
         onTap: (index) {
@@ -54,7 +59,6 @@ icon: ImageIcon(AssetImage("assets/home.png"),size: 30)          ),
         selectedItemColor: Colors.red,
         unselectedItemColor: Colors.black,
       ),
-
       body: pages[activeIndex],
     );
   }

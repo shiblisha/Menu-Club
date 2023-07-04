@@ -14,7 +14,7 @@ class PatchMethodApiClient {
   }) async {
     final preferences = await SharedPreferences.getInstance();
     final token = preferences.getString('Token');
-    Map<String, String> headerParams = {"authorization": "Bearer $token"};
+    Map<String, String> headerParams = {"authorization": "Bearer $token",};
 
     print(basepath + Path);
     var request = http.MultipartRequest(method, Uri.parse(basepath + Path));

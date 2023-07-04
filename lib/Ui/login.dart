@@ -18,6 +18,9 @@ String pattern = r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
     r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
     r"{0,253}[a-zA-Z0-9])?)*$";
 final form_key = GlobalKey<FormState>();
+String loginpage_email1 = '';
+String loginpage_password1 = '';
+bool passwordvisible = false;
 
 class _LoginPageState extends State<LoginPage> {
   @override
@@ -35,11 +38,16 @@ class _LoginPageState extends State<LoginPage> {
           builder: (BuildContext a) => const Center(child: CircularProgressIndicator()));
     }
     if(state is LoginBlocLoaded){
+
       String token= BlocProvider.of<LoginBloc>(context).loginModel.payload!.accessToken.toString();
-      String shopid=BlocProvider.of<LoginBloc>(context).loginModel.payload!.user!.id.toString();
+
       String shopname=BlocProvider.of<LoginBloc>(context).loginModel.payload!.user!.storeName.toString();
       String description=BlocProvider.of<LoginBloc>(context).loginModel.payload!.user!.description.toString();
-      userInfo(token,shopid,shopname,description);
+      String  ShopId=BlocProvider.of<LoginBloc>(context).loginModel.payload!.user!.id!.toString();
+     userInfo(token, shopname, description,ShopId);
+      setState(() {
+
+      });
       Navigator.push(context,
           MaterialPageRoute(builder: (context) =>const BottomNavigation()));
     }
@@ -198,12 +206,13 @@ class _LoginPageState extends State<LoginPage> {
 ),
     );
   }
-  void userInfo( String token,String shopId,String shopname,String description) async {
+   void userInfo( String token,String shopname,String description,String shopId) async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.setString('Token', token);
-    await preferences.setString('shopId', shopId);
+
     await preferences.setString('shopname',shopname);
     await preferences.setString('description',description);
+    await preferences.setString('shopId',shopId);
 
   }
 }

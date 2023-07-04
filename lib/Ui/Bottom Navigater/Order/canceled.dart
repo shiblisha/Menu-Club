@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/Order/orderDetails.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Bloc/OrderBloc/order_bloc.dart';
 
@@ -14,12 +15,24 @@ class CanceledPage extends StatefulWidget {
   State<CanceledPage> createState() => _CanceledPageState();
 }late OrderModel orders;
 List<dynamic>canceled=[];
+String shopId='';
+
 class _CanceledPageState extends State<CanceledPage> {
-  void initState() {
-    BlocProvider.of<OrderBloc>(context).add(FetchOrders(ShopId: 1));
+  void initState(){
+
     super.initState();
+    shopName();
+
+
   }
-  @override
+
+  void shopName() async {
+    final preferences = await SharedPreferences.getInstance();
+    setState(() {
+      shopId= preferences.getString('shopId')!;
+    });
+    BlocProvider.of<OrderBloc>(context).add(FetchOrders(ShopId: int.parse(shopId)));
+  }
 
   Widget build(BuildContext context) {
     var mwidth = MediaQuery

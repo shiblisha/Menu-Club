@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../Repository/Api/UpdateProductsApi/updateProductsApi.dart';
+import '../../Repository/ModelClass/UpdateProductModel.dart';
 import '../../Repository/ModelClass/productModel.dart';
 
 part 'update_product_event.dart';
@@ -9,7 +10,7 @@ part 'update_product_event.dart';
 part 'update_product_state.dart';
 
 class UpdateProductBloc extends Bloc<UpdateProductEvent, UpdateProductState> {
-  late ProductModel UpdateproductData;
+  late UpdateProductModel UpdateproductData;
   UpdateProductApi updateproductApi = UpdateProductApi();
 
   UpdateProductBloc() : super(UpdateProductInitial()) {

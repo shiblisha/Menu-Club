@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_club/Ui/Bottom%20Navigater/More/subscription.dart';
 
+import '../../../Bloc/StoreBloc/store_bloc.dart';
+import '../Home/home.dart';
 import 'outletInfo.dart';
 
 class MorePage extends StatefulWidget {
@@ -17,7 +20,16 @@ class _MorePageState extends State<MorePage> {
     var mheight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: BlocBuilder<StoreBloc, StoreState>(
+  builder: (context, state) {
+    if(state is StoreBlocLoading){
+      return Center(child: CircularProgressIndicator(),);
+    }
+    if(state is StoreBlocLoaded){
+      store = BlocProvider
+          .of<StoreBloc>(context)
+          .storeModel;
+    return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
@@ -38,7 +50,7 @@ class _MorePageState extends State<MorePage> {
                       height: mheight * 0.025,
                       width: mwidth * 0.5,
                       child: Text(
-                        "Demo Store",
+                      store.payload!.data!.storeName.toString(),
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -49,8 +61,7 @@ class _MorePageState extends State<MorePage> {
                     height: mheight*0.15,
                     width: mwidth*0.9,
                     child: Text(
-                      "Neque porro quisquam est, qui dolothytfdcgfdgerdgrdegvrfcgvrccgerrsrfesageadszvczsdfwt4q3geravtrhrem ipsum quia dolor sit amet, consectetur, adipisci velit, sed qu.",
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: 'title'),
+                      store.payload!.data!.description.toString(), style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400,fontFamily: 'title'),
                     ),
                   ),
                 ],
@@ -104,7 +115,15 @@ class _MorePageState extends State<MorePage> {
               ),
             ),
           ],
-        ),
+        );}if(state is StoreBlocError){
+      return (Center(
+        child: Text("ERROR"),
+      ));
+    }else{
+      return SizedBox();
+    }
+  },
+),
       ),
     );
   }

@@ -4,7 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:menu_club/Ui/fluttertoast.dart';
 import 'package:menu_club/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../Bloc/AddProdductBloc/add_product_bloc.dart';
 import '../../../Bloc/ProductBloc/product_bloc.dart';
 import '../../../Bloc/UpdateProducts/update_product_bloc.dart';
 import '../../../Repository/ModelClass/productModel.dart';
@@ -32,14 +35,23 @@ TextEditingController productName1 = TextEditingController();
 TextEditingController price1 = TextEditingController();
 TextEditingController time1 = TextEditingController();
 TextEditingController description1 = TextEditingController();
+String shopId = '';
 
 class _ProductPageState extends State<ProductPage> {
   void initState() {
-    BlocProvider.of<ProductBloc>(context).add(FetchProduct(shopId: 1));
     super.initState();
+    shopName();
   }
 
-  @override
+  void shopName() async {
+    final preferences = await SharedPreferences.getInstance();
+    setState(() {
+      shopId = preferences.getString('shopId')!;
+    });
+    BlocProvider.of<ProductBloc>(context)
+        .add(FetchProduct(shopId: int.parse(shopId)));
+  }
+
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
@@ -211,7 +223,8 @@ class _ProductPageState extends State<ProductPage> {
                                                     });
                                                     _toggleValue[index] == false
                                                         ? BlocProvider.of<UpdateProductBloc>(context).add(FetchUpdateProduct(
-                                                            shopId: 1,
+                                                            shopId: int.parse(
+                                                                shopId),
                                                             is_recommended: 1,
                                                             is_veg: 1,
                                                             cooking_time: 1,
@@ -232,35 +245,31 @@ class _ProductPageState extends State<ProductPage> {
                                                                 .data![index]
                                                                 .name,
                                                             ItemId: 1854))
-                                                        : BlocProvider.of<UpdateProductBloc>(
-                                                                context)
-                                                            .add(FetchUpdateProduct(
-                                                                shopId: 1,
-                                                                is_recommended:
-                                                                    1,
-                                                                is_veg: 1,
-                                                                cooking_time: 1,
-                                                                category_id:
-                                                                    270,
-                                                                is_active: 1,
-                                                                image_extension:
-                                                                    '',
-                                                                image: '',
-                                                                description: products!
+                                                        : BlocProvider.of<UpdateProductBloc>(context).add(FetchUpdateProduct(
+                                                            shopId: int.parse(
+                                                                shopId),
+                                                            is_recommended: 1,
+                                                            is_veg: 1,
+                                                            cooking_time: 1,
+                                                            category_id: 270,
+                                                            is_active: 1,
+                                                            image_extension: '',
+                                                            image: '',
+                                                            description:
+                                                                products!
                                                                     .payload!
                                                                     .data![
                                                                         index]
                                                                     .description,
-                                                                price: products!
-                                                                    .payload!
-                                                                    .data![
-                                                                        index]
-                                                                    .price,
-                                                                name: products!
-                                                                    .payload!
-                                                                    .data![index]
-                                                                    .name,
-                                                                ItemId: 1854));
+                                                            price: products!
+                                                                .payload!
+                                                                .data![index]
+                                                                .price,
+                                                            name: products!
+                                                                .payload!
+                                                                .data![index]
+                                                                .name,
+                                                            ItemId: 1854));
 
                                                     print(_toggleValue);
                                                   },
@@ -303,7 +312,8 @@ class _ProductPageState extends State<ProductPage> {
                                                       .toString(),
                                                   products!.payload!
                                                       .data![index].description
-                                                      .toString());
+                                                      .toString(),
+                                                  index);
                                             },
                                             child: Image.asset(
                                               "assets/edit.png",
@@ -349,7 +359,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   void _showBottomSheet(BuildContext context, String productname1, String Price,
-      String Time, String Descrption) {
+      String Time, String Descrption, int index) {
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     print(Time);
@@ -536,18 +546,18 @@ class _ProductPageState extends State<ProductPage> {
                               width: mwidth * 0.09,
                             ),
                             Container(
-                              height: mheight * 0.053,
-                              width: mwidth * 0.4,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.black),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: mwidth * 0.02),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.phone,
-                                  controller: price,
-                                  decoration: InputDecoration(
+                                height: mheight * 0.053,
+                                width: mwidth * 0.4,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.black),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: mwidth * 0.02),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.phone,
+                                    controller: price,
+                                    decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Price",
                                       hintStyle: TextStyle(
@@ -555,11 +565,10 @@ class _ProductPageState extends State<ProductPage> {
                                           fontSize: 16,
                                           fontFamily: 'title',
                                           color: Color(0xff4B4B4B)),
-
-                                ),
-                              ),
-                            )
-                            )],
+                                    ),
+                                  ),
+                                ))
+                          ],
                         ),
                         SizedBox(
                           height: mheight * 0.02,
@@ -574,7 +583,8 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(left: mwidth * 0.02),
-                              child: TextFormField(controller: time,
+                              child: TextFormField(
+                                controller: time,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Preparation Time (Min.)",
@@ -691,20 +701,63 @@ class _ProductPageState extends State<ProductPage> {
                           height: mheight * 0.02,
                         ),
                         Center(
+                            child: BlocListener<UpdateProductBloc,
+                                UpdateProductState>(
+                          listener: (context, state) {
+                            if (state is UpdateProductblocLoading) {
+                              Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state is UpdateProductblocLoaded) {
+                              BlocProvider.of<ProductBloc>(context)
+                                  .add(FetchProduct(shopId: int.parse(shopId)));
+                              Navigator.of(context).pop();
+                            }
+                            if (state is UpdateProductblocError) {
+                              ToastMessage()
+                                  .toastmessage(message: 'Somthing went wrong');
+                            }
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              BlocProvider.of<UpdateProductBloc>(context).add(
+                                  FetchUpdateProduct(
+                                      shopId: int.parse(shopId),
+                                      is_recommended: products!
+                                          .payload!.data![index].isRecommended,
+                                      is_veg:
+                                          products!.payload!.data![index].isVeg,
+                                      cooking_time: int.parse(time.text),
+                                      category_id: products!
+                                          .payload!.data![index].categoryId,
+                                      is_active: products!
+                                          .payload!.data![index].isActive,
+                                      image_extension: null.toString(),
+                                      image: products!
+                                          .payload!.data![index].imageUrl,
+                                      description: description.text,
+                                      price: int.parse(price.text),
+                                      name: productName.text,
+                                      ItemId:
+                                          products!.payload!.data![index].id));
+                            },
                             child: Container(
-                          height: mheight * 0.05,
-                          width: mwidth * 0.9,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Color(0xffFF0000),
-                          ),
-                          child: Center(
-                            child: Text('Update',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'title',
-                                    color: Color(0xffffffff))),
+                              height: mheight * 0.05,
+                              width: mwidth * 0.9,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color(0xffFF0000),
+                              ),
+                              child: Center(
+                                child: Text('Update',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'title',
+                                        color: Color(0xffffffff))),
+                              ),
+                            ),
                           ),
                         ))
                       ],
@@ -717,7 +770,7 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  void _showBottomSheet1(BuildContext context) {
+  void _showBottomSheet1(BuildContext context,) {
     var mwidth = MediaQuery.of(context).size.width;
     var mheight = MediaQuery.of(context).size.height;
     showModalBottomSheet(
@@ -1050,20 +1103,35 @@ class _ProductPageState extends State<ProductPage> {
                           height: mheight * 0.02,
                         ),
                         Center(
+                            child:
+                                BlocListener<AddProductBloc, AddProductState>(
+                          listener: (context, state) {
+                                   if(state is AddProductblocLoading){
+                                     Center(child: CircularProgressIndicator(),);
+                                   }if(state is AddProductblocLoaded){
+
+                                   }
+                          },
+                          child: GestureDetector(onTap: (){
+                            BlocProvider.of<AddProductBloc>(context).add(
+                               FetchAddProduct(shopId: 1, is_recommended: 1, is_veg: 1, cooking_time: int.parse(time1.text), category_id: 140, is_active: 1, image_extension: '', image: '', description: description1.text, price:int.parse( price1.text), name: productName1.text,)
+                            );},
                             child: Container(
-                          height: mheight * 0.05,
-                          width: mwidth * 0.9,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Color(0xffFF0000),
-                          ),
-                          child: Center(
-                            child: Text('Update',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: 'title',
-                                    color: Color(0xffffffff))),
+                              height: mheight * 0.05,
+                              width: mwidth * 0.9,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color(0xffFF0000),
+                              ),
+                              child: Center(
+                                child: Text('Update',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: 'title',
+                                        color: Color(0xffffffff))),
+                              ),
+                            ),
                           ),
                         ))
                       ],

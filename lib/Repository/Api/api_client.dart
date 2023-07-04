@@ -49,6 +49,7 @@ class ApiClient {
           Uri.parse(url),
           headers: {
             'authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data'
 
           },
           body: body,
@@ -77,6 +78,7 @@ class ApiClient {
           Uri.parse(url),
           headers: {
             'authorization': 'Bearer $token',
+
           },
           body: body,
         );

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:menu_club/Bloc/CategoryBloc/category_bloc.dart';
 import 'package:menu_club/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Repository/ModelClass/CategoryModel.dart';
 import 'CategoryDialogAdd.dart';
@@ -21,14 +22,27 @@ late CategoryModel categories;
 
 final picker = ImagePicker();
 TextEditingController name = TextEditingController();
+ String shopId='';
 
 class _CategoryPageState extends State<CategoryPage> {
   @override
-  void initState() {
-    BlocProvider.of<CategoryBloc>(context).add(FetchCategory(shopId: 1));
+  void initState(){
+
     super.initState();
+    shopName();
+
+
   }
 
+  void shopName() async {
+    final preferences = await SharedPreferences.getInstance();
+    setState(() {
+      shopId= preferences.getString('shopId')!;
+    });
+
+    BlocProvider.of<CategoryBloc>(context).add(FetchCategory(shopId:int.parse(shopId)));
+
+  }
   @override
   Widget build(BuildContext context) {
     var mwidth = MediaQuery.of(context).size.width;
@@ -37,7 +51,7 @@ class _CategoryPageState extends State<CategoryPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column( crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: mheight * 0.04,

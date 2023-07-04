@@ -30,7 +30,7 @@ class _OrderPageState extends State<OrderPage> {
         title: Padding(
           padding: EdgeInsets.only(left: mwidth * 0.06),
           child: Text(
-            "Order",
+            'Order History',
             style: TextStyle(color: Colors.black),
           ),
         ),
